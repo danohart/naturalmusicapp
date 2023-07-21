@@ -1,0 +1,16 @@
+@import './bootstrap-override';
+@import "~bootstrap/scss/bootstrap";
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+  
+html,
+body {
+    max-width: 100vw;
+    height: 120vh;
+    overflow-x: hidden;
+    background: #dddddd;
+}

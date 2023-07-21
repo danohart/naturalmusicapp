@@ -1,34 +1,35 @@
-import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import fetcher from "../lib/fetcher";
-import { Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import Modal from "@/components/Modal";
 
 export default function Home() {
-  const [chartData, setChartData] = useState("Loading");
-  const { data, error, isLoading } = useSWR("/api/hello", fetcher);
+  const { data, error, isLoading } = useSWR("/api/music?perPage=6", fetcher);
 
   if (error) return <div>failed to load</div>;
   if (isLoading) {
-    return <div>Loading</div>;
+    return (
+      <Spinner animation='border' role='status'>
+        <span className='visually-hidden'>Loading...</span>
+      </Spinner>
+    );
   }
 
-  console.log(data);
-
   return (
-    <div>
+    <Container>
+      <Row>
+        <Col className='mt-4 mb-4'>
+          <h1>Church Setlist</h1>
+          <hr />
+        </Col>
+      </Row>
       {data.map((song) => (
-        <div key={song.id}>
-          <Row>
-            <Col>
-              <h2>
-                <a href={`?page=chordchart&id=${song.id}`}>
-                  {song.title.rendered}
-                </a>
-              </h2>
-            </Col>
-          </Row>
-        </div>
+        <Row key={song.id}>
+          <Col>
+            <Modal song={song} />
+          </Col>
+        </Row>
       ))}
-    </div>
+    </Container>
   );
 }

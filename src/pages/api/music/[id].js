@@ -1,7 +1,9 @@
-import { getPosts } from "../../lib/wordpress";
+import { getPosts } from "../../../lib/wordpress";
 
 export default async function handler(req, res) {
-  const response = await getPosts("crd_practice_music?per_page=40");
+  const response = await getPosts("crd_practice_music");
+
+  console.log("req id", req);
 
   res.setHeader(
     "Cache-Control",
