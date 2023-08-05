@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { Badge, Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
 function SongModal({ song }) {
@@ -8,14 +8,18 @@ function SongModal({ song }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  console.log("song", song);
+
   return (
     <>
-      <Button className='mb-4' variant='primary' onClick={handleShow}>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: song.title.rendered,
-          }}
-        />
+      <Button className='m-2' variant='primary' onClick={handleShow}>
+        {song.title.rendered}
+
+        {song._embedded ? (
+          <Badge bg='secondary' className='ms-2'>
+            {song._embedded["wp:term"][0][0].name}
+          </Badge>
+        ) : null}
       </Button>
 
       <Modal

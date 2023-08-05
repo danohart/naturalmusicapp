@@ -2,7 +2,7 @@ import { getPosts } from "../../../lib/wordpress";
 
 export default async function handler(req, res) {
   const response = await getPosts(
-    "crd_practice_music" + `?per_page=${req.query.perPage}`
+    "crd_practice_music" + `?per_page=${req.query.perPage}&_embed`
   );
 
   res.setHeader(
