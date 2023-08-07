@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Badge, Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
+import htmlHelper from "../lib/htmlHelper";
 
 function SongModal({ song }) {
   const [show, setShow] = useState(false);
@@ -13,7 +14,7 @@ function SongModal({ song }) {
   return (
     <>
       <Button className='m-2' variant='primary' onClick={handleShow}>
-        {song.title.rendered}
+        {htmlHelper(song.title.rendered)}
 
         {song._embedded ? (
           <Badge bg='secondary' className='ms-2'>
@@ -30,7 +31,7 @@ function SongModal({ song }) {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{song.title.rendered}</Modal.Title>
+          <Modal.Title>{htmlHelper(song.title.rendered)}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div
