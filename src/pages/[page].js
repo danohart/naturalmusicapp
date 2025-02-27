@@ -9,9 +9,10 @@ import { useRouter } from "next/router";
 export default function Home() {
   const router = useRouter();
   const currentPage = router.query.page || 1;
+  console.log("Current Page:", currentPage);
 
   const { data, error, isLoading } = useSWR(
-    `/api/music?perPage=12${currentPage > 1 ? `&page=${currentPage}` : ""}`,
+    `/api/music/${currentPage}/?perPage=12`,
     fetcher
   );
 

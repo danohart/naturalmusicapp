@@ -9,8 +9,6 @@ function SongModal({ song }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  console.log("song", song);
-
   return (
     <>
       <Button className='m-2' variant='primary' onClick={handleShow}>

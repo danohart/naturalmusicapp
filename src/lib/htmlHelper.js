@@ -3,5 +3,6 @@ export default function htmlDecode(input) {
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
-    .replace(/&#8217;/g, "'");
+    .replace(/&#8217;/g, "'")
+    .replace(/&#8211;/g, "-");
 }

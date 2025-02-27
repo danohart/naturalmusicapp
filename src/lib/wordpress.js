@@ -2,8 +2,15 @@ const BASE_URL = "https://naturalmusicstore.com/wp-json/wp/v2/";
 
 export async function getPosts(args) {
   const postsRes = await fetch(BASE_URL + args);
+  const totalPosts = postsRes.headers.get("X-WP-Total");
+  const totalPages = postsRes.headers.get("X-WP-TotalPages");
+
   const posts = await postsRes.json();
-  return posts;
+  return {
+    posts,
+    totalPosts: parseInt(totalPosts, 10),
+    totalPages: parseInt(totalPages, 10),
+  };
 }
 
 export async function getPost(slug) {

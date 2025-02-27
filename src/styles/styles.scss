@@ -22,3 +22,14 @@ body {
 .chordwp-toolbar.userlogin {
     display: none;
 }
+
+.pagination {
+    display: flex;
+    a {
+        text-decoration: none;
+    }
+
+    .active a {
+        color: white;
+    }
+}
