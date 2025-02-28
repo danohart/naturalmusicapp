@@ -4,8 +4,10 @@ import Head from "next/head";
 import Link from "next/link";
 import htmlHelper from "@/lib/htmlHelper";
 import ChordSheetJS from "chordsheetjs";
+import { useRouter } from "next/router";
 
 export default function SongPage({ song }) {
+  const router = useRouter();
   if (!song) {
     return (
       <Container>
@@ -41,11 +43,15 @@ export default function SongPage({ song }) {
       </Head>
       <Row>
         <Col className='mt-4'>
-          <Link href='/music/1' passHref>
-            <Button variant='outline-secondary' size='sm' className='mb-3'>
-              ← Back to song list
-            </Button>
-          </Link>
+          <Button
+            variant='outline-secondary'
+            size='sm'
+            className='mb-3'
+            onClick={() => router.back()}
+          >
+            ← Back to song list
+          </Button>
+
           <h1> {htmlHelper(song.title.rendered)}</h1>
           <hr />
         </Col>
