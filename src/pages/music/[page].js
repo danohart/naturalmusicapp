@@ -1,43 +1,10 @@
-// pages/music/[page].js
-import { useState, useEffect } from "react";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
-import Modal from "@/components/Modal";
+import { Container, Row, Col } from "react-bootstrap";
+import htmlHelper from "@/lib/htmlHelper";
 import Head from "next/head";
+import Link from "next/link";
 import PaginationComponent from "@/components/Pagination";
-import { useRouter } from "next/router";
 
-export default function MusicPage({ totalPages, initialPageNumber }) {
-  const router = useRouter();
-  const [pageNumber, setPageNumber] = useState(initialPageNumber);
-  const [songs, setSongs] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch songs when page changes
-  useEffect(() => {
-    async function loadSongs() {
-      setLoading(true);
-      try {
-        // Use a Next.js API route to fetch just this page's songs
-        const res = await fetch(`/api/music?page=${pageNumber}`);
-        const data = await res.json();
-        setSongs(data.posts);
-      } catch (error) {
-        console.error("Error loading songs:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadSongs();
-  }, [pageNumber]);
-
-  // Update page when URL changes
-  useEffect(() => {
-    if (router.query.page) {
-      setPageNumber(parseInt(router.query.page));
-    }
-  }, [router.query.page]);
-
+export default function MusicPage({ songs, totalPages, pageNumber }) {
   return (
     <Container>
       <Head>
@@ -50,25 +17,15 @@ export default function MusicPage({ totalPages, initialPageNumber }) {
         </Col>
       </Row>
 
-      {loading ? (
-        <Row>
-          <Col className='mt-4 text-center'>
-            <Spinner animation='border' role='status'>
-              <span className='visually-hidden'>Loading...</span>
-            </Spinner>
+      {songs.map((song, index) => (
+        <Row key={song.id} className={index % 2 === 0 ? "song-row" : ""}>
+          <Col className='d-flex align-items-center p-3'>
+            <Link href={`/song/${song.id}`} className='text-decoration-none'>
+              {htmlHelper(song.title.rendered)}
+            </Link>
           </Col>
         </Row>
-      ) : (
-        <>
-          {songs.map((song, index) => (
-            <Row key={song.id} className={index % 2 === 0 ? "song-row" : ""}>
-              <Col className='d-flex align-items-center'>
-                <Modal song={song} />
-              </Col>
-            </Row>
-          ))}
-        </>
-      )}
+      ))}
 
       <PaginationComponent
         totalPages={totalPages}
@@ -82,10 +39,8 @@ export default function MusicPage({ totalPages, initialPageNumber }) {
 export async function getStaticPaths() {
   try {
     const { getPosts } = require("../../lib/wordpress");
-    // Just get the total number of posts to calculate pages
     const countResponse = await getPosts("crd_practice_music?per_page=1");
 
-    // Use the total from the WordPress response headers
     const totalPosts = parseInt(countResponse.totalPosts);
     const totalPages = Math.ceil(totalPosts / 12);
 
@@ -110,14 +65,14 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   try {
     const pageNumber = parseInt(params.page) || 1;
+    const postsPerPage = 12;
     const { getPosts } = require("../../lib/wordpress");
 
-    // Just get the count to determine total pages
+    // Get the total number of posts
     const countResponse = await getPosts("crd_practice_music?per_page=1");
     const totalPosts = parseInt(countResponse.totalPosts);
     const totalPages = Math.ceil(totalPosts / 12);
 
-    // If the page doesn't exist, redirect to page 1
     if (pageNumber < 1 || pageNumber > totalPages) {
       return {
         redirect: {
@@ -127,10 +82,16 @@ export async function getStaticProps({ params }) {
       };
     }
 
+    // Fetch only minimal data for the song list
+    const pageResponse = await getPosts(
+      `crd_practice_music?page=${pageNumber}&per_page=${postsPerPage}&_fields=id,title`
+    );
+
     return {
       props: {
+        songs: pageResponse.posts,
         totalPages,
-        initialPageNumber: pageNumber,
+        pageNumber,
       },
       revalidate: 86400,
     };
@@ -138,8 +99,9 @@ export async function getStaticProps({ params }) {
     console.error("Failed to fetch songs:", error);
     return {
       props: {
+        songs: [],
         totalPages: 0,
-        initialPageNumber: 1,
+        pageNumber: 1,
       },
       revalidate: 3600,
     };

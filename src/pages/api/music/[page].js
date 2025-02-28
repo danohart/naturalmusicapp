@@ -1,12 +1,12 @@
 import { getPosts } from "../../../lib/wordpress";
 
 export default async function handler(req, res) {
-  const { page } = req.query;
+  const { page, perPage } = req.query;
 
   const response = await getPosts(
     "crd_practice_music" +
       `${page ? `?page=${page}` : ""}` +
-      `&per_page=${req.query.perPage}` +
+      `&per_page=${perPage}` +
       `&_embed`
   );
 

@@ -1,11 +1,6 @@
 @import './bootstrap-override';
 @import "~bootstrap/scss/bootstrap";
 
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
   
 html,
 body {
@@ -32,3 +27,27 @@ body {
         color: white;
     }
 }
+
+
+.chord-sheet {
+    font-size: 1rem
+  }
+  
+  .chord-sheet .row {
+    display: flex;
+    flex-direction: row
+  }
+  
+  .chord-sheet .row .column {
+    padding: 2px;
+    width: auto
+  }
+  
+  .chord-sheet .chord {
+    font-weight: 700;
+    min-height: 50%
+  }
+  
+  .postbox {
+    border-radius: 15px
+  }

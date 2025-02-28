@@ -13,6 +13,21 @@ export async function getPosts(args) {
   };
 }
 
+export async function getSinglePost(endpoint) {
+  try {
+    const response = await fetch(`${BASE_URL + endpoint}`);
+
+    if (!response.ok) {
+      throw new Error(`WordPress API error: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching single post:", error);
+    return null;
+  }
+}
+
 export async function getPost(slug) {
   const posts = await getPosts();
   const postArray = posts.filter((post) => post.slug == slug);
