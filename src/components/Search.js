@@ -70,7 +70,8 @@ const SearchComponent = ({ songs, onSongSelect, selectedSongs }) => {
         >
           <p className='mb-2'>
             Found {searchResults.length} song
-            {searchResults.length !== 1 ? "s" : ""} matching "{searchTerm}"
+            {searchResults.length !== 1 ? "s" : ""} matching &quot;{searchTerm}
+            &quot;
           </p>
           {searchResults.map((song, index) => (
             <Row
