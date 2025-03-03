@@ -36,12 +36,10 @@ export default function SongPage({ song }) {
     return songDisplay;
   }
 
-  console.log(song);
-
   return (
     <Container>
       <Head>
-        <title> {htmlHelper(song.title.rendered)} - Natural Music App</title>
+        <title>{htmlHelper(song.title.rendered)} - Natural Music App</title>
       </Head>
       <Row>
         <Col className='mt-4'>
@@ -101,7 +99,7 @@ export async function getStaticProps({ params }) {
     const { getSinglePost } = require("../../lib/wordpress");
     const song = await getSinglePost(`crd_practice_music/${songId}?_embed`);
 
-    if (!song) {
+    if (!song || !song.metadata._crd_practice_song) {
       return {
         notFound: true,
       };

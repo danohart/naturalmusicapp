@@ -14,12 +14,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import PaginationComponent from "@/components/Pagination";
 import { PlusCircle, CheckCircle, Share2, ClipboardIcon } from "lucide-react";
+import SearchComponent from "@/components/Search";
 
-export default function MusicPage({ songs, totalPages, pageNumber }) {
+export default function MusicPage({
+  songs,
+  totalPages,
+  pageNumber,
+  allSongTitles,
+}) {
   const [selectedSongs, setSelectedSongs] = useState([]);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
   const [copied, setCopied] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
 
   // Load selected songs from localStorage when component mounts
@@ -85,6 +92,10 @@ export default function MusicPage({ songs, totalPages, pageNumber }) {
     setCopied(false);
   };
 
+  const toggleSearchView = () => {
+    setShowSearch(!showSearch);
+  };
+
   return (
     <Container>
       <Head>
@@ -94,26 +105,35 @@ export default function MusicPage({ songs, totalPages, pageNumber }) {
         <Col className='mt-4'>
           <div className='d-flex justify-content-between align-items-center'>
             <h1>All Songs</h1>
-            {selectedSongs.length > 0 && (
-              <div className='d-flex'>
-                <Button
-                  variant='primary'
-                  size='sm'
-                  onClick={generateShareUrl}
-                  className='me-2'
-                >
-                  <Share2 size={16} className='me-1' />
-                  Share ({selectedSongs.length})
-                </Button>
-                <Button
-                  variant='outline-secondary'
-                  size='sm'
-                  onClick={clearSelection}
-                >
-                  Clear
-                </Button>
-              </div>
-            )}
+            <div className='d-flex'>
+              {selectedSongs.length > 0 && (
+                <div className='d-flex me-2'>
+                  <Button
+                    variant='primary'
+                    size='sm'
+                    onClick={generateShareUrl}
+                    className='me-2'
+                  >
+                    <Share2 size={16} className='me-1' />
+                    Share ({selectedSongs.length})
+                  </Button>
+                  <Button
+                    variant='outline-secondary'
+                    size='sm'
+                    onClick={clearSelection}
+                  >
+                    Clear
+                  </Button>
+                </div>
+              )}
+              <Button
+                variant='outline-primary'
+                size='sm'
+                onClick={toggleSearchView}
+              >
+                {showSearch ? "Hide Search" : "Search All Songs"}
+              </Button>
+            </div>
           </div>
           <p>
             Click on the <PlusCircle size={18} /> by any song to create and
@@ -122,6 +142,20 @@ export default function MusicPage({ songs, totalPages, pageNumber }) {
           <hr />
         </Col>
       </Row>
+
+      {/* Search Component (Toggleable) */}
+      {showSearch && (
+        <Row>
+          <Col>
+            <SearchComponent
+              songs={allSongTitles}
+              onSongSelect={toggleSongSelection}
+              selectedSongs={selectedSongs}
+            />
+            <hr />
+          </Col>
+        </Row>
+      )}
 
       {showShareOptions && (
         <Row className='mb-3'>
@@ -231,11 +265,12 @@ export async function getStaticProps({ params }) {
     const postsPerPage = 12;
     const { getPosts } = require("../../lib/wordpress");
 
+    // Get total count for pagination
     const countResponse = await getPosts(
       "crd_practice_music?per_page=1&status=publish"
     );
     const totalPosts = parseInt(countResponse.totalPosts);
-    const totalPages = Math.ceil(totalPosts / 12);
+    const totalPages = Math.ceil(totalPosts / postsPerPage);
 
     if (pageNumber < 1 || pageNumber > totalPages) {
       return {
@@ -246,6 +281,7 @@ export async function getStaticProps({ params }) {
       };
     }
 
+    // Get songs for current page
     const pageResponse = await getPosts(
       `crd_practice_music?page=${pageNumber}&per_page=${postsPerPage}&_fields=id,title,status`
     );
@@ -254,13 +290,23 @@ export async function getStaticProps({ params }) {
       (post) => post.status === "publish"
     );
 
+    // Get all songs for search (only id and title)
+    const allSongsResponse = await getPosts(
+      `crd_practice_music?per_page=${totalPosts}&_fields=id,title,status`
+    );
+
+    const allSongTitles = allSongsResponse.posts.filter(
+      (post) => post.status === "publish"
+    );
+
     return {
       props: {
         songs: publishedSongs,
         totalPages,
         pageNumber,
+        allSongTitles,
       },
-      revalidate: 86400,
+      revalidate: 86400, // Revalidate once per day
     };
   } catch (error) {
     console.error("Failed to fetch songs:", error);
@@ -269,8 +315,9 @@ export async function getStaticProps({ params }) {
         songs: [],
         totalPages: 0,
         pageNumber: 1,
+        allSongTitles: [],
       },
-      revalidate: 3600,
+      revalidate: 3600, // Retry after an hour if there was an error
     };
   }
 }
