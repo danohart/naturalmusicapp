@@ -36,6 +36,8 @@ export default function SongPage({ song }) {
     return songDisplay;
   }
 
+  console.log(song);
+
   return (
     <Container>
       <Head>
@@ -52,19 +54,17 @@ export default function SongPage({ song }) {
             ← Back to song list
           </Button>
 
-          <h1> {htmlHelper(song.title.rendered)}</h1>
+          <h1>{htmlHelper(song.title.rendered)}</h1>
           <hr />
         </Col>
       </Row>
 
       <Row>
-        <Col>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: parseSong(song.metadata._crd_practice_song),
-            }}
-          />
-        </Col>
+        <Col
+          dangerouslySetInnerHTML={{
+            __html: parseSong(song.metadata._crd_practice_song),
+          }}
+        />
       </Row>
     </Container>
   );
@@ -74,7 +74,6 @@ export async function getStaticPaths() {
   try {
     const { getPosts } = require("../../lib/wordpress");
 
-    // Get all song IDs
     const response = await getPosts(
       "crd_practice_music?per_page=100&_fields=id"
     );
@@ -100,8 +99,6 @@ export async function getStaticProps({ params }) {
   try {
     const songId = params.id;
     const { getSinglePost } = require("../../lib/wordpress");
-
-    // Get the full song data with embedded media
     const song = await getSinglePost(`crd_practice_music/${songId}?_embed`);
 
     if (!song) {

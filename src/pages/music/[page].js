@@ -88,12 +88,12 @@ export default function MusicPage({ songs, totalPages, pageNumber }) {
   return (
     <Container>
       <Head>
-        <title>Church Setlist // Natural Music App</title>
+        <title>All Songs // Natural Music App</title>
       </Head>
       <Row>
         <Col className='mt-4'>
           <div className='d-flex justify-content-between align-items-center'>
-            <h1>Church Setlist</h1>
+            <h1>All Songs</h1>
             {selectedSongs.length > 0 && (
               <div className='d-flex'>
                 <Button
@@ -115,6 +115,10 @@ export default function MusicPage({ songs, totalPages, pageNumber }) {
               </div>
             )}
           </div>
+          <p>
+            Click on the <PlusCircle size={18} /> by any song to create and
+            share a custom setlist.
+          </p>
           <hr />
         </Col>
       </Row>
@@ -227,8 +231,9 @@ export async function getStaticProps({ params }) {
     const postsPerPage = 12;
     const { getPosts } = require("../../lib/wordpress");
 
-    // Get the total number of posts
-    const countResponse = await getPosts("crd_practice_music?per_page=1");
+    const countResponse = await getPosts(
+      "crd_practice_music?per_page=1&status=publish"
+    );
     const totalPosts = parseInt(countResponse.totalPosts);
     const totalPages = Math.ceil(totalPosts / 12);
 
@@ -241,14 +246,17 @@ export async function getStaticProps({ params }) {
       };
     }
 
-    // Fetch only minimal data for the song list
     const pageResponse = await getPosts(
-      `crd_practice_music?page=${pageNumber}&per_page=${postsPerPage}&_fields=id,title`
+      `crd_practice_music?page=${pageNumber}&per_page=${postsPerPage}&_fields=id,title,status`
+    );
+
+    const publishedSongs = pageResponse.posts.filter(
+      (post) => post.status === "publish"
     );
 
     return {
       props: {
-        songs: pageResponse.posts,
+        songs: publishedSongs,
         totalPages,
         pageNumber,
       },

@@ -1,4 +1,7 @@
-const BASE_URL = "https://naturalmusicstore.com/wp-json/wp/v2/";
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://naturalmusicstore.test/wp-json/wp/v2/"
+    : "https://naturalmusicstore.com/wp-json/wp/v2/";
 
 export async function getPosts(args) {
   const postsRes = await fetch(BASE_URL + args);

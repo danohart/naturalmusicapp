@@ -30,22 +30,28 @@ body {
 
 
 .chord-sheet {
-    font-size: 1rem
-  }
-  
-  .chord-sheet .row {
-    display: flex;
-    flex-direction: row
-  }
-  
-  .chord-sheet .row .column {
-    padding: 2px;
-    width: auto
-  }
-  
-  .chord-sheet .chord {
-    font-weight: 700;
-    min-height: 50%
+    font-size: 1rem;
+    margin: 0 10px;
+
+    .chord {
+        font-weight: 700;
+        min-height: 50%
+      }
+
+      .lyrics {
+        min-height: 50%;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+
+        .column {
+            padding: 2px;
+            width: auto
+          }
+      }
   }
   
   .postbox {
