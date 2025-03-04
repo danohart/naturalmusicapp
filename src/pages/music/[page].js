@@ -1,13 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  InputGroup,
-  Alert,
-} from "react-bootstrap";
+import { Row, Col, Button, Form, InputGroup, Alert } from "react-bootstrap";
 import htmlHelper from "@/lib/htmlHelper";
 import Head from "next/head";
 import Link from "next/link";
@@ -97,7 +89,7 @@ export default function MusicPage({
   };
 
   return (
-    <Container>
+    <>
       <Head>
         <title>All Songs // Natural Music App</title>
       </Head>
@@ -229,7 +221,7 @@ export default function MusicPage({
         currentPage={pageNumber}
         baseUrl='/music'
       />
-    </Container>
+    </>
   );
 }
 

@@ -1,5 +1,4 @@
-// pages/song/[id].js - Individual song page
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import Head from "next/head";
 import Link from "next/link";
 import htmlHelper from "@/lib/htmlHelper";
@@ -10,16 +9,14 @@ export default function SongPage({ song }) {
   const router = useRouter();
   if (!song) {
     return (
-      <Container>
-        <Row>
-          <Col className='mt-4'>
-            <h1>Song not found</h1>
-            <Link href='/music/1' passHref>
-              <Button variant='primary'>Back to song list</Button>
-            </Link>
-          </Col>
-        </Row>
-      </Container>
+      <Row>
+        <Col className='mt-4'>
+          <h1>Song not found</h1>
+          <Link href='/music/1' passHref>
+            <Button variant='primary'>Back to song list</Button>
+          </Link>
+        </Col>
+      </Row>
     );
   }
 
@@ -37,7 +34,7 @@ export default function SongPage({ song }) {
   }
 
   return (
-    <Container>
+    <>
       <Head>
         <title>{htmlHelper(song.title.rendered)} - Natural Music App</title>
       </Head>
@@ -64,7 +61,7 @@ export default function SongPage({ song }) {
           }}
         />
       </Row>
-    </Container>
+    </>
   );
 }
 

@@ -1,15 +1,15 @@
-// pages/playlist.js
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Head from "next/head";
 import SongListByUrl from "../components/songById";
 
 export default function Setlist() {
   return (
-    <Container>
-      <Head>
-        <title>Custom Setlist // Natural Music App</title>
-      </Head>
+    <>
       <Row>
+        <Head>
+          <title>Custom Setlist // Natural Music App</title>
+        </Head>
+
         <Col className='mt-4'>
           <h1>Custom Setlist</h1>
           {/* <p className='lead'>
@@ -24,6 +24,6 @@ export default function Setlist() {
           <SongListByUrl />
         </Col>
       </Row>
-    </Container>
+    </>
   );
 }
