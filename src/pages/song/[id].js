@@ -60,7 +60,7 @@ export default function SongPage({ song }) {
       <Row>
         <Col
           dangerouslySetInnerHTML={{
-            __html: parseSong(song.metadata._crd_practice_song),
+            __html: song.content.rendered,
           }}
         />
       </Row>

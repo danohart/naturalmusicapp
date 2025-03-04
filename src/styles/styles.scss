@@ -28,6 +28,28 @@ body {
     }
 }
 
+.chordwp-container {
+    font-size: 1rem;
+    margin: 0 10px;
+
+    .verse-line {
+        margin-top: 20px;
+    } 
+
+    .chords {
+        font-weight: 700;
+        min-height: 50%
+    }
+
+    .lyrics {
+        min-height: 50%;
+    }
+
+    p.lyrics {
+        margin-top: 30px;
+    }
+}
+
 
 .chord-sheet {
     font-size: 1rem;
