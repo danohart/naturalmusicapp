@@ -96,7 +96,7 @@ export async function getStaticProps({ params }) {
     const { getSinglePost } = require("../../lib/wordpress");
     const song = await getSinglePost(`crd_practice_music/${songId}?_embed`);
 
-    if (!song || !song.metadata._crd_practice_song) {
+    if (!song) {
       return {
         notFound: true,
       };
