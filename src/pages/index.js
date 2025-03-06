@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import ProtectedContent from "@/components/ProtectedContent";
 
 export default function Home() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Home() {
         <h1 className='display-2 fw-bold mb-2'>Natural Music App</h1>
 
         <p className='lead mb-5'>Find your favorite church music right here.</p>
-
+        <ProtectedContent>Testing Protected content</ProtectedContent>
         <Button
           size='lg'
           variant='primary'

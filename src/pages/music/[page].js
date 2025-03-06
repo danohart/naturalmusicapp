@@ -102,7 +102,7 @@ export default function MusicPage({
         <title>All Songs // Natural Music App</title>
       </Head>
       <Row>
-        <Col className='mt-4'>
+        <Col>
           <div className='d-flex justify-content-between align-items-center'>
             <h1>All Songs</h1>
             <Button
