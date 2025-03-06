@@ -1,16 +1,30 @@
 @import './bootstrap-override';
 @import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
+@import './colors.scss';
+
 
   
 html,
 body {
     max-width: 100vw;
     overflow-x: hidden;
-    background: #FFFFFF;
+    background: $background;
 }
 
-.song-row {
-    background-color: #ebebeb;
+h1, h2 {
+    font-family: "Newsreader", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.songs {
+    background-color: $light;
+    font-size: 1.25rem;
+
+    a {
+        color: $dark;
+    }
 }
 
 .chordwp-toolbar.userlogin {

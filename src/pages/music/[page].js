@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { Row, Col, Button, Form, InputGroup, Alert } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Button,
+  Form,
+  InputGroup,
+  Alert,
+  Badge,
+} from "react-bootstrap";
 import htmlHelper from "@/lib/htmlHelper";
 import Head from "next/head";
 import Link from "next/link";
@@ -97,35 +105,13 @@ export default function MusicPage({
         <Col className='mt-4'>
           <div className='d-flex justify-content-between align-items-center'>
             <h1>All Songs</h1>
-            <div className='d-flex'>
-              {selectedSongs.length > 0 && (
-                <div className='d-flex me-2'>
-                  <Button
-                    variant='primary'
-                    size='sm'
-                    onClick={generateShareUrl}
-                    className='me-2'
-                  >
-                    <Share2 size={16} className='me-1' />
-                    Share ({selectedSongs.length})
-                  </Button>
-                  <Button
-                    variant='outline-secondary'
-                    size='sm'
-                    onClick={clearSelection}
-                  >
-                    Clear
-                  </Button>
-                </div>
-              )}
-              <Button
-                variant='outline-primary'
-                size='sm'
-                onClick={toggleSearchView}
-              >
-                {showSearch ? "Hide Search" : "Search All Songs"}
-              </Button>
-            </div>
+            <Button
+              variant='outline-primary'
+              size='sm'
+              onClick={toggleSearchView}
+            >
+              {showSearch ? "Hide Search" : "Search All Songs"}
+            </Button>
           </div>
           <p>
             Click on the <PlusCircle size={18} /> by any song to create and
@@ -133,6 +119,28 @@ export default function MusicPage({
           </p>
           <hr />
         </Col>
+      </Row>
+      <Row>
+        {selectedSongs.length > 0 && (
+          <Col className='d-flex m-2 justify-content-center'>
+            <Button
+              variant='primary'
+              size='sm'
+              onClick={generateShareUrl}
+              className='me-2'
+            >
+              <Share2 size={16} className='me-1' />
+              Share ({selectedSongs.length})
+            </Button>
+            <Button
+              variant='outline-secondary'
+              size='sm'
+              onClick={clearSelection}
+            >
+              Clear
+            </Button>
+          </Col>
+        )}
       </Row>
 
       {/* Search Component (Toggleable) */}
@@ -190,8 +198,8 @@ export default function MusicPage({
       )}
 
       {songs.map((song, index) => (
-        <Row key={song.id} className={index % 2 === 0 ? "song-row" : ""}>
-          <Col className='d-flex align-items-center p-3'>
+        <Row key={song.id} className='songs mb-3'>
+          <Col className='d-flex align-items-center p-2'>
             <Button
               variant={selectedSongs.includes(song.id) ? "primary" : "light"}
               size='sm'

@@ -4,7 +4,7 @@ import { Container, Offcanvas, Nav, Navbar } from "react-bootstrap";
 export default function App({ Component, pageProps }) {
   const siteTitle = "Natural Music App";
   return (
-    <Container>
+    <>
       <Navbar bg='light' expand='lg'>
         <Container fluid>
           <Navbar.Brand href='/'>{siteTitle}</Navbar.Brand>
@@ -28,7 +28,9 @@ export default function App({ Component, pageProps }) {
           </Navbar.Offcanvas>
         </Container>
       </Navbar>
-      <Component {...pageProps} />
-    </Container>
+      <Container>
+        <Component {...pageProps} />
+      </Container>
+    </>
   );
 }
