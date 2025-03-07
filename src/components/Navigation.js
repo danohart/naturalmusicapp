@@ -33,11 +33,6 @@ export default function Navigation() {
               {/* Auth buttons */}
               {isAuthenticated ? (
                 <>
-                  <Nav.Item className='d-flex align-items-center mx-2'>
-                    <small className='text-muted'>
-                      Hi, {user?.displayName || user?.username || "User"}
-                    </small>
-                  </Nav.Item>
                   <Button
                     variant='outline-danger'
                     size='sm'

@@ -5,12 +5,16 @@ import { checkUserSubscription } from "../lib/woocommerce";
 const SubscriptionContext = createContext({
   isLoading: true,
   isSubscribed: false,
+  isAdmin: false,
+  hasAccess: false,
 });
 
 export function SubscriptionProvider({ children }) {
   const [subscriptionStatus, setSubscriptionStatus] = useState({
     isLoading: true,
     isSubscribed: false,
+    isAdmin: false,
+    hasAccess: false,
   });
 
   const { user, isAuthenticated, loading: authLoading } = useAuth();
@@ -22,18 +26,41 @@ export function SubscriptionProvider({ children }) {
       }
 
       try {
-        const hasSubscription = await checkUserSubscription(user.id);
-        console.log("hasSubscription", hasSubscription);
+        // Check if user has admin role
+        const isAdmin =
+          user?.roles?.includes("administrator") ||
+          user?.role === "administrator" ||
+          user?.capabilities?.administrator === true;
+        console.log("User is admin:", user);
+        // Only check subscription if not an admin
+        let hasSubscription = false;
+        if (!isAdmin) {
+          hasSubscription = await checkUserSubscription(user.id);
+          console.log("hasSubscription", hasSubscription);
+        } else {
+          console.log("User is admin, skipping subscription check");
+        }
 
         setSubscriptionStatus({
           isLoading: false,
           isSubscribed: hasSubscription,
+          isAdmin: isAdmin,
+          hasAccess: hasSubscription || isAdmin, // Access granted if either condition is true
         });
       } catch (error) {
-        console.error("Error checking subscription1:", error);
+        console.error("Error checking subscription:", error);
+
+        // Check if user has admin role even if subscription check fails
+        const isAdmin =
+          user?.roles?.includes("administrator") ||
+          user?.role === "administrator" ||
+          user?.capabilities?.administrator === true;
+
         setSubscriptionStatus({
           isLoading: false,
           isSubscribed: false,
+          isAdmin: isAdmin,
+          hasAccess: isAdmin, // Admin still has access even if subscription check fails
         });
       }
     }
@@ -44,6 +71,8 @@ export function SubscriptionProvider({ children }) {
       setSubscriptionStatus({
         isLoading: authLoading,
         isSubscribed: false,
+        isAdmin: false,
+        hasAccess: false,
       });
     }
   }, [isAuthenticated, authLoading, user]);

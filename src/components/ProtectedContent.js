@@ -4,7 +4,12 @@ import Link from "next/link";
 
 export default function ProtectedContent({ children }) {
   const { isAuthenticated, loading: authLoading } = useAuth();
-  const { isLoading: subscriptionLoading, isSubscribed } = useSubscription();
+  const {
+    isLoading: subscriptionLoading,
+    hasAccess,
+    isAdmin,
+    isSubscribed,
+  } = useSubscription();
 
   // Show loading state while checking auth or subscription
   if (authLoading || subscriptionLoading) {
@@ -36,5 +41,10 @@ export default function ProtectedContent({ children }) {
   }
 
   // If both authenticated and subscribed, show content
-  return <>{children}</>;
+  return (
+    <>
+      {isAdmin && <div className='admin-notice'>Admin view</div>}
+      {children}
+    </>
+  );
 }

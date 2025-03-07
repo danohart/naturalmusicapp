@@ -14,7 +14,6 @@ const createWooCommerceClient = () => {
 
 export async function getActiveSubscribers({ page = 1, perPage = 100 } = {}) {
   const api = createWooCommerceClient();
-  console.log("API:", api);
 
   try {
     // Fetch active subscriptions
@@ -81,7 +80,7 @@ export async function checkUserSubscription(userId) {
     // Return true if user has any active paid subscriptions
     return paidSubscriptions.length > 0;
   } catch (error) {
-    console.error("Error checking subscription:", error);
+    console.error("Error checking subscription2:", error);
     return false;
   }
 }
