@@ -34,7 +34,6 @@ export function SubscriptionProvider({ children }) {
         let hasSubscription = false;
         if (!isAdmin) {
           hasSubscription = await checkUserSubscription(user.id);
-          console.log("hasSubscription", hasSubscription);
         } else {
           console.log("User is admin, skipping subscription check");
         }

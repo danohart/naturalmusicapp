@@ -1,9 +1,7 @@
+@import './colors.scss';
 @import './bootstrap-override';
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
-@import './colors.scss';
-
-
   
 html,
 body {
@@ -24,6 +22,47 @@ h1, h2 {
 
     a {
         color: $dark;
+    }
+}
+
+.videoWrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+    width: 100%;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .video {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+    width: 100%;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+a[href$=".pdf"] {
+    margin: 20px 20px 20px 0;
+    display: block;
+
+    &:before {
+        content: "PDF: ";
     }
 }
 
@@ -92,4 +131,31 @@ h1, h2 {
   
   .postbox {
     border-radius: 15px
+  }
+
+  .hover-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+      }
+  }
+
+  .course {
+    position: relative;
+
+    &.featured {
+        &::before {
+            content: "Featured";
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: $secondary;
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            z-index: 1;
+        }
+    }
   }

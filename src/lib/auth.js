@@ -54,9 +54,6 @@ export async function loginUser(username, password) {
       }
     );
 
-    // Log the entire response structure to see where user ID is located
-    console.log("Authentication response data:", response.data);
-
     // Extract user data from response
     const { token, user_email, user_nicename, user_display_name } =
       response.data;
@@ -182,7 +179,6 @@ export async function getUserFromToken(token) {
     const { valid } = await validateToken(token);
     if (!valid) return null;
 
-    // Get user info from WordPress
     const response = await axios.get(`${WORDPRESS_API_URL}/wp/v2/users/me`, {
       headers: {
         Authorization: `Bearer ${token}`,

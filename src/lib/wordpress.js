@@ -5,6 +5,7 @@ const BASE_URL =
 
 export async function getPosts(args) {
   const postsRes = await fetch(BASE_URL + args);
+
   const totalPosts = postsRes.headers.get("X-WP-Total");
   const totalPages = postsRes.headers.get("X-WP-TotalPages");
 

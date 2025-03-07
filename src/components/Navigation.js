@@ -29,6 +29,7 @@ export default function Navigation() {
             <Nav className='justify-content-end flex-grow-1 pe-3'>
               <Nav.Link href='/'>Home</Nav.Link>
               <Nav.Link href='/music/1'>Lyrics & Chords</Nav.Link>
+              <Nav.Link href='/courses/'>Courses</Nav.Link>
 
               {/* Auth buttons */}
               {isAuthenticated ? (

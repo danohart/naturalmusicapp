@@ -58,7 +58,6 @@ export async function getActiveSubscribers({ page = 1, perPage = 100 } = {}) {
   }
 }
 
-// Utility function to check if a user has an active paid subscription
 export async function checkUserSubscription(userId) {
   const api = createWooCommerceClient();
 
@@ -66,15 +65,13 @@ export async function checkUserSubscription(userId) {
     // Fetch user's subscriptions
     const response = await api.get("subscriptions", {
       customer: userId,
-      status: "active", // Only check for active subscriptions
+      status: "active",
     });
 
-    // Filter for paid subscriptions (you might need to adjust based on your specific subscription setup)
     const paidSubscriptions = response.data.filter(
       (subscription) => subscription.status === "active"
     );
 
-    // Return true if user has any active paid subscriptions
     return paidSubscriptions.length > 0;
   } catch (error) {
     console.error("Error checking subscription:", error);
@@ -82,10 +79,8 @@ export async function checkUserSubscription(userId) {
   }
 }
 
-// Example middleware for protecting routes
 export function withSubscriptionCheck(getServerSidePropsFunc) {
   return async (context) => {
-    // Assume you have user authentication middleware that sets user ID
     const userId = context.req.user?.id;
 
     if (!userId) {
