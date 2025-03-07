@@ -6,8 +6,8 @@ const createWooCommerceClient = () => {
       process.env.NODE_ENV === "production"
         ? process.env.NEXT_PUBLIC_PROD_URL
         : process.env.NEXT_PUBLIC_DEV_URL,
-    consumerKey: process.env.WOO_CONSUMER_KEY,
-    consumerSecret: process.env.WOO_SECRET_KEY,
+    consumerKey: process.env.NEXT_PUBLIC_WOO_CONSUMER_KEY,
+    consumerSecret: process.env.NEXT_PUBLIC_WOO_SECRET_KEY,
     version: "wc/v3",
   });
 };
@@ -69,18 +69,15 @@ export async function checkUserSubscription(userId) {
       status: "active", // Only check for active subscriptions
     });
 
-    console.log("User subscriptions:", response);
-
     // Filter for paid subscriptions (you might need to adjust based on your specific subscription setup)
     const paidSubscriptions = response.data.filter(
-      (subscription) =>
-        subscription.status === "active" && subscription.total > 0
+      (subscription) => subscription.status === "active"
     );
 
     // Return true if user has any active paid subscriptions
     return paidSubscriptions.length > 0;
   } catch (error) {
-    console.error("Error checking subscription2:", error);
+    console.error("Error checking subscription:", error);
     return false;
   }
 }

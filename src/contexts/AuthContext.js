@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = () => {
     if (isAuthenticated()) {
       const userInfo = getUserInfo();
-      console.log("User info from cookie:", userInfo);
       setUser(userInfo);
     } else {
       setUser(null);

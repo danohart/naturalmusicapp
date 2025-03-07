@@ -26,13 +26,11 @@ export function SubscriptionProvider({ children }) {
       }
 
       try {
-        // Check if user has admin role
         const isAdmin =
           user?.roles?.includes("administrator") ||
           user?.role === "administrator" ||
           user?.capabilities?.administrator === true;
-        console.log("User is admin:", user);
-        // Only check subscription if not an admin
+
         let hasSubscription = false;
         if (!isAdmin) {
           hasSubscription = await checkUserSubscription(user.id);
@@ -45,12 +43,11 @@ export function SubscriptionProvider({ children }) {
           isLoading: false,
           isSubscribed: hasSubscription,
           isAdmin: isAdmin,
-          hasAccess: hasSubscription || isAdmin, // Access granted if either condition is true
+          hasAccess: hasSubscription || isAdmin,
         });
       } catch (error) {
         console.error("Error checking subscription:", error);
 
-        // Check if user has admin role even if subscription check fails
         const isAdmin =
           user?.roles?.includes("administrator") ||
           user?.role === "administrator" ||
@@ -60,7 +57,7 @@ export function SubscriptionProvider({ children }) {
           isLoading: false,
           isSubscribed: false,
           isAdmin: isAdmin,
-          hasAccess: isAdmin, // Admin still has access even if subscription check fails
+          hasAccess: isAdmin,
         });
       }
     }

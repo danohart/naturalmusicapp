@@ -11,12 +11,10 @@ export default function ProtectedContent({ children }) {
     isSubscribed,
   } = useSubscription();
 
-  // Show loading state while checking auth or subscription
   if (authLoading || subscriptionLoading) {
     return <div className='p-4 text-center'>Loading...</div>;
   }
 
-  // If not authenticated, show login prompt
   if (!isAuthenticated) {
     return (
       <div className='p-6 bg-gray-100 rounded-lg shadow-md'>
@@ -27,7 +25,6 @@ export default function ProtectedContent({ children }) {
     );
   }
 
-  // If authenticated but no subscription, show subscription prompt
   if (!isSubscribed) {
     return (
       <div className='p-6 bg-gray-100 rounded-lg shadow-md'>
@@ -40,7 +37,6 @@ export default function ProtectedContent({ children }) {
     );
   }
 
-  // If both authenticated and subscribed, show content
   return (
     <>
       {isAdmin && <div className='admin-notice'>Admin view</div>}

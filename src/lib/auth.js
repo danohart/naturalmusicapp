@@ -31,7 +31,6 @@ export function getAuthToken() {
   return typeof window !== "undefined" ? Cookies.get(AUTH_COOKIE_NAME) : null;
 }
 
-// Get user info from cookies
 export function getUserInfo() {
   const userInfoStr =
     typeof window !== "undefined" ? Cookies.get(USER_COOKIE_NAME) : null;
@@ -46,6 +45,7 @@ export function isAuthenticated() {
 // Login user
 export async function loginUser(username, password) {
   try {
+    // First authenticate and get the token
     const response = await axios.post(
       `${WORDPRESS_API_URL}/jwt-auth/v1/token`,
       {
@@ -54,18 +54,83 @@ export async function loginUser(username, password) {
       }
     );
 
+    // Log the entire response structure to see where user ID is located
+    console.log("Authentication response data:", response.data);
+
+    // Extract user data from response
     const { token, user_email, user_nicename, user_display_name } =
       response.data;
+
+    // Check various possible locations for user ID
+    let userId = null;
+
+    // Check all possible paths where the user ID might be located
+    if (response.data.user_id !== undefined) {
+      userId = response.data.user_id;
+    } else if (response.data.id !== undefined) {
+      userId = response.data.id;
+    } else if (response.data.user && response.data.user.id !== undefined) {
+      userId = response.data.user.id;
+    } else if (response.data.data && response.data.data.user_id !== undefined) {
+      userId = response.data.data.user_id;
+    } else if (response.data.data && response.data.data.id !== undefined) {
+      userId = response.data.data.id;
+    }
+
+    // If still no userId, try to get it from a separate request
+    if (!userId) {
+      try {
+        const userDataResponse = await axios.get(
+          `${WORDPRESS_API_URL}/wp/v2/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        userId = userDataResponse.data.id;
+        console.log("User ID from secondary request:", userId);
+      } catch (userIdError) {
+        console.error("Error fetching user ID:", userIdError);
+      }
+    }
+
+    if (!userId) {
+      console.error("User ID not found in any response");
+      return {
+        success: false,
+        error: "Failed to retrieve user ID. Please contact support.",
+      };
+    }
+
+    // Get user roles with a separate request using the token
+    let userRoles = [];
+    try {
+      const userDataResponse = await axios.get(
+        `${WORDPRESS_API_URL}/wp/v2/users/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      userRoles = userDataResponse.data.roles || [];
+      console.log("User roles:", userRoles);
+    } catch (roleError) {
+      console.error("Error fetching user roles:", roleError);
+      // Continue despite error fetching roles
+    }
 
     // Store token and user info in cookies
     Cookies.set(AUTH_COOKIE_NAME, token, { expires: 7 }); // 7 days expiry
     Cookies.set(
       USER_COOKIE_NAME,
       JSON.stringify({
-        id: response.data.user_id,
+        id: userId,
         email: user_email,
         username: user_nicename,
         displayName: user_display_name,
+        roles: userRoles,
       }),
       { expires: 7 }
     );
@@ -73,9 +138,10 @@ export async function loginUser(username, password) {
     return {
       success: true,
       user: {
-        id: response.data.user_id,
+        id: userId,
         email: user_email,
         name: user_display_name,
+        roles: userRoles,
       },
     };
   } catch (error) {
