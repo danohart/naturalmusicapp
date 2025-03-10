@@ -10,6 +10,10 @@ body {
     background: $background;
 }
 
+.main-container {
+    min-height: 100vh;
+}
+
 h1, h2 {
     font-family: "Newsreader", serif;
     font-optical-sizing: auto;
@@ -59,7 +63,6 @@ h1, h2 {
 
 a[href$=".pdf"] {
     display: inline-block;
-    margin: 20px 20px 20px 0;
     color: $white;
     background-color: $primary;
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Row, Col, Card, ListGroup, Badge, Spinner } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
+import htmlHelper from "../../lib/htmlHelper";
 import Head from "next/head";
 import Link from "next/link";
 import { useSubscription } from "../../contexts/SubscriptionContext";
@@ -85,13 +86,12 @@ export default function Lesson() {
     );
   }
 
-  const featuredImage = lesson._embedded?.["wp:featuredmedia"]?.[0];
-  const imageUrl = featuredImage?.source_url || "/placeholder-lesson.jpg";
-
   return (
     <>
       <Head>
-        <title>{lesson.title?.rendered} | Natural Music Store</title>
+        <title>
+          {htmlHelper(lesson.title?.rendered)} | Natural Music Store
+        </title>
         <meta
           name='description'
           content={
@@ -103,25 +103,15 @@ export default function Lesson() {
         />
       </Head>
 
-      <Row className='mb-1'>
-        <Col md={8}>
-          <h1 dangerouslySetInnerHTML={{ __html: lesson.title?.rendered }} />
-        </Col>
-      </Row>
-
       <Row>
         <Col>
-          <Card>
-            <ListGroup variant='flush'>
-              <ListGroup.Item key={lesson.id}>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: lesson.content.rendered,
-                  }}
-                />
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
+          <h1 dangerouslySetInnerHTML={{ __html: lesson.title?.rendered }} />
+          <div
+            className='text-center'
+            dangerouslySetInnerHTML={{
+              __html: lesson.content.rendered,
+            }}
+          />
         </Col>
       </Row>
     </>
