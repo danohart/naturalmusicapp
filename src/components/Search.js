@@ -80,7 +80,15 @@ const SearchComponent = ({ songs, onSongSelect, selectedSongs }) => {
                 index % 2 === 0 ? "bg-light" : ""
               }`}
             >
-              <Col className='d-flex align-items-center'>
+              <Col xs={10} className='d-flex align-items-center'>
+                <Link
+                  href={`/song/${song.id}`}
+                  className='text-decoration-none'
+                >
+                  {htmlHelper(song.title.rendered)}
+                </Link>
+              </Col>
+              <Col xs={2} className='d-flex justify-content-end'>
                 <Button
                   variant={
                     selectedSongs.includes(song.id) ? "primary" : "light"
@@ -104,12 +112,6 @@ const SearchComponent = ({ songs, onSongSelect, selectedSongs }) => {
                     </div>
                   )}
                 </Button>
-                <Link
-                  href={`/song/${song.id}`}
-                  className='text-decoration-none'
-                >
-                  {htmlHelper(song.title.rendered)}
-                </Link>
               </Col>
             </Row>
           ))}

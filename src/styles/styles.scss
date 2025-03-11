@@ -23,7 +23,6 @@ h1, h2 {
 .songs {
     background-color: $light;
     font-size: 1.25rem;
-    // border-bottom: 1px solid $dark;
     margin-bottom: 2px;
 
     a {
@@ -38,6 +37,14 @@ h1, h2 {
             height: auto;
         }
     }
+}
+
+.song-selection-bar {
+    background-color: $primary;
+    color: $white;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-bottom: 10px;
 }
 
 .videoWrapper {

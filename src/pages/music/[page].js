@@ -1,21 +1,12 @@
 import { useState, useEffect } from "react";
-import {
-  Row,
-  Col,
-  Button,
-  Form,
-  InputGroup,
-  Alert,
-  Badge,
-} from "react-bootstrap";
+import { Row, Col, Button, Form, InputGroup, Alert } from "react-bootstrap";
 import htmlHelper from "@/lib/htmlHelper";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import PaginationComponent from "@/components/Pagination";
-import { PlusCircle, CheckCircle, Share2, ClipboardIcon } from "lucide-react";
+import { PlusCircle, CheckCircle, Share, ClipboardIcon, X } from "lucide-react";
 import SearchComponent from "@/components/Search";
-import extractAudioFiles from "@/lib/extractAudioFiles";
 
 export default function MusicPage({
   songs,
@@ -68,7 +59,7 @@ export default function MusicPage({
     const url = `${baseUrl}/setlist?songs=${songIdsParam}`;
 
     setShareUrl(url);
-    setShowShareOptions(true);
+    setShowShareOptions(!showShareOptions);
   };
 
   const copyToClipboard = () => {
@@ -106,57 +97,42 @@ export default function MusicPage({
         <Col>
           <div className='d-flex justify-content-between align-items-center'>
             <h1>All Songs</h1>
-            <Button
-              variant='outline-primary'
-              size='sm'
-              onClick={toggleSearchView}
-            >
-              {showSearch ? "Hide Search" : "Search All Songs"}
-            </Button>
           </div>
-          <p>
-            Click on the <PlusCircle size={18} /> by any song to create and
-            share a custom setlist.
-          </p>
-          <hr />
         </Col>
       </Row>
-      <Row>
-        {selectedSongs.length > 0 && (
+      <Row className='align-items-center song-selection-bar'>
+        {selectedSongs.length > 0 ? (
+          <>
+            <Col xs={6}>
+              {selectedSongs.length} Song{selectedSongs.length > 1 ? "s" : ""}{" "}
+              Selected
+            </Col>
+            <Col xs={6} className={"d-flex justify-content-end"}>
+              <Button
+                variant='light'
+                size='sm'
+                onClick={generateShareUrl}
+                className='me-2'
+              >
+                <Share size={16} className='me-1' />
+                Share
+              </Button>
+              <Button
+                variant='outline-secondary'
+                size='sm'
+                onClick={clearSelection}
+              >
+                Clear
+              </Button>
+            </Col>
+          </>
+        ) : (
           <Col className='d-flex m-2 justify-content-center'>
-            <Button
-              variant='primary'
-              size='sm'
-              onClick={generateShareUrl}
-              className='me-2'
-            >
-              <Share2 size={16} className='me-1' />
-              Share ({selectedSongs.length})
-            </Button>
-            <Button
-              variant='outline-secondary'
-              size='sm'
-              onClick={clearSelection}
-            >
-              Clear
-            </Button>
+            Select any song to create and share a custom setlist.
+            <hr />
           </Col>
         )}
       </Row>
-
-      {/* Search Component (Toggleable) */}
-      {showSearch && (
-        <Row>
-          <Col>
-            <SearchComponent
-              songs={allSongTitles}
-              onSongSelect={toggleSongSelection}
-              selectedSongs={selectedSongs}
-            />
-            <hr />
-          </Col>
-        </Row>
-      )}
 
       {showShareOptions && (
         <Row className='mb-3'>
@@ -179,7 +155,7 @@ export default function MusicPage({
 
               <div className='d-flex'>
                 <Button
-                  variant='success'
+                  variant='info'
                   size='sm'
                   className='me-2'
                   onClick={goToSharedList}
@@ -197,6 +173,16 @@ export default function MusicPage({
           </Col>
         </Row>
       )}
+      <Row>
+        <Col>
+          <SearchComponent
+            songs={allSongTitles}
+            onSongSelect={toggleSongSelection}
+            selectedSongs={selectedSongs}
+          />
+          <hr />
+        </Col>
+      </Row>
 
       {songs.map((song, index) => (
         <Row key={song.id} className='songs p-2'>
