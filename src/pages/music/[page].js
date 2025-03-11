@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import PaginationComponent from "@/components/Pagination";
 import { PlusCircle, CheckCircle, Share2, ClipboardIcon } from "lucide-react";
 import SearchComponent from "@/components/Search";
+import extractAudioFiles from "@/lib/extractAudioFiles";
 
 export default function MusicPage({
   songs,
@@ -198,8 +199,19 @@ export default function MusicPage({
       )}
 
       {songs.map((song, index) => (
-        <Row key={song.id} className='songs mb-3'>
-          <Col className='d-flex align-items-center p-2'>
+        <Row key={song.id} className='songs p-2'>
+          <Col xs={3} className='songs-image'>
+            <img src={`https://picsum.photos/100?random=${index}`} />
+          </Col>
+          <Col xs={7}>
+            <Link href={`/song/${song.id}`} className='text-decoration-none'>
+              {htmlHelper(song.title.rendered)}
+            </Link>
+          </Col>
+          <Col
+            xs={2}
+            className='d-flex align-items-center justify-content-center'
+          >
             <Button
               variant={selectedSongs.includes(song.id) ? "primary" : "light"}
               size='sm'
@@ -212,14 +224,11 @@ export default function MusicPage({
               }
             >
               {selectedSongs.includes(song.id) ? (
-                <CheckCircle size={16} />
+                <CheckCircle size={24} />
               ) : (
-                <PlusCircle size={16} />
+                <PlusCircle size={24} />
               )}
             </Button>
-            <Link href={`/song/${song.id}`} className='text-decoration-none'>
-              {htmlHelper(song.title.rendered)}
-            </Link>
           </Col>
         </Row>
       ))}
@@ -283,7 +292,7 @@ export async function getStaticProps({ params }) {
 
     // Get songs for current page
     const pageResponse = await getPosts(
-      `crd_practice_music?page=${pageNumber}&per_page=${postsPerPage}&_fields=id,title,status`
+      `crd_practice_music?page=${pageNumber}&per_page=${postsPerPage}&_fields=id,title,status,content`
     );
 
     const publishedSongs = pageResponse.posts.filter(

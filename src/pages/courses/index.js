@@ -18,11 +18,11 @@ export default function CoursesPage({ courses, error }) {
   }
 
   const guitarCourses = courses.filter((course) =>
-    course["course-category"]?.includes(963)
+    course["class_list"]?.includes("course-category-guitar")
   );
 
   const bassCourses = courses.filter((course) =>
-    course["course-category"]?.includes(2007)
+    course["class_list"]?.includes("course-category-bass")
   );
 
   const pianoCourses = courses.filter(
@@ -63,9 +63,9 @@ export default function CoursesPage({ courses, error }) {
         id='course-category-tabs'
         activeKey={activeTab}
         onSelect={(k) => setActiveTab(k)}
-        className='mb-4 justify-content-center'
+        className='mb-2 justify-content-center'
       >
-        <Tab eventKey='all' title='All Courses'></Tab>
+        {/* <Tab eventKey='all' title='All Courses'></Tab> */}
         <Tab eventKey='piano' title={`Piano (${pianoCourses.length})`}></Tab>
         <Tab eventKey='guitar' title={`Guitar (${guitarCourses.length})`}></Tab>
         <Tab eventKey='bass' title={`Bass (${bassCourses.length})`}></Tab>
@@ -81,7 +81,9 @@ export default function CoursesPage({ courses, error }) {
             return (
               <Col
                 key={course.id}
-                className={`course ${isFeatured ? "featured" : ""}`}
+                className={`course course-${course.id} ${
+                  isFeatured ? "featured" : ""
+                }`}
               >
                 <Card className='h-100 shadow-sm hover-card'>
                   <div

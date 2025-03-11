@@ -23,9 +23,20 @@ h1, h2 {
 .songs {
     background-color: $light;
     font-size: 1.25rem;
+    // border-bottom: 1px solid $dark;
+    margin-bottom: 2px;
 
     a {
         color: $dark;
+    }
+
+    &-image {
+        
+        img {
+            border-radius: 4px;
+            width: 100%;
+            height: auto;
+        }
     }
 }
 
@@ -160,13 +171,26 @@ a[href$=".pdf"] {
         &::before {
             content: "Featured";
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 8px;
+            left: 3px;
             background-color: $secondary;
             color: white;
             padding: 5px 10px;
             font-weight: bold;
             z-index: 1;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 42px;
+            left: 3px;
+            border-top: 0px solid transparent;
+            border-bottom: 10px solid transparent;
+            
+            border-right: 10px solid darken($color: $secondary, $amount: 20);
         }
     }
   }

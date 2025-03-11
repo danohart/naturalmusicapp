@@ -141,7 +141,7 @@ export default function CourseDetailPage() {
           {lessons.length > 0 ? (
             <Card>
               <ListGroup variant='flush'>
-                {lessons.map((lesson, index) => (
+                {lessons.toReversed().map((lesson, index) => (
                   <ListGroup.Item
                     key={lesson.id}
                     className='d-flex justify-content-between align-items-center'
@@ -169,6 +169,7 @@ export default function CourseDetailPage() {
                           {lesson.length} min
                         </Badge>
                       )}
+                      {console.log(lesson)}
                       <Badge
                         bg={
                           lesson.complexity === "easy"

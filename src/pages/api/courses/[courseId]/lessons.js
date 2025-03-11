@@ -17,7 +17,6 @@ export default async function handler(req, res) {
       `lessons?lesson_course=${courseId}&per_page=100`
     );
 
-    // Simplify the response to just include what we need
     const simplifiedLessons = lessons.posts.map((lesson) => ({
       id: lesson.id,
       title: lesson.title.rendered,
