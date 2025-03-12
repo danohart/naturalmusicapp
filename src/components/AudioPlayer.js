@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Row, Col, Card, Button } from "react-bootstrap";
+import { Row, Col, Card, Button, Spinner } from "react-bootstrap";
 import { Play, Pause } from "lucide-react";
 
 // Create a component that will only be rendered on the client side
@@ -9,6 +9,8 @@ const AudioPlayer = (audioFiles) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadedTracks, setLoadedTracks] = useState({});
 
   // Create the audio element ref
   const audioRef = useRef(null);
@@ -38,17 +40,33 @@ const AudioPlayer = (audioFiles) => {
       setIsPlaying(false);
       setCurrentTime(0);
     };
+    const handleCanPlay = () => {
+      setIsLoading(false);
+      if (currentTrackIndex !== null) {
+        setLoadedTracks((prev) => ({
+          ...prev,
+          [currentTrackIndex]: true,
+        }));
+      }
+    };
+    const handleWaiting = () => {
+      setIsLoading(true);
+    };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("durationchange", handleDurationChange);
     audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("canplay", handleCanPlay);
+    audio.addEventListener("waiting", handleWaiting);
 
     return () => {
       audio.removeEventListener("timeupdate", handleTimeUpdate);
       audio.removeEventListener("durationchange", handleDurationChange);
       audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("canplay", handleCanPlay);
+      audio.removeEventListener("waiting", handleWaiting);
     };
-  }, []);
+  }, [currentTrackIndex]);
 
   // Handle track changes
   useEffect(() => {
@@ -57,10 +75,20 @@ const AudioPlayer = (audioFiles) => {
     const audio = audioRef.current;
 
     if (currentTrackIndex !== null && tracks[currentTrackIndex]) {
+      setIsLoading(true);
       audio.src = tracks[currentTrackIndex].url;
       audio.load();
+
+      // Only attempt to play if explicitly requested
       if (isPlaying) {
-        audio.play().catch((err) => console.error("Playback failed:", err));
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.error("Playback failed:", err);
+            setIsPlaying(false);
+          });
+        }
       }
     }
   }, [currentTrackIndex, tracks]);
@@ -71,23 +99,33 @@ const AudioPlayer = (audioFiles) => {
 
     const audio = audioRef.current;
 
-    if (isPlaying) {
-      audio.play().catch((err) => console.error("Playback failed:", err));
+    if (isPlaying && !isLoading) {
+      const playPromise = audio.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.error("Playback failed:", err);
+          setIsPlaying(false);
+        });
+      }
     } else {
       audio.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, isLoading]);
 
   const togglePlayPause = () => {
     if (currentTrackIndex === null && tracks.length > 0) {
       setCurrentTrackIndex(0);
       setIsPlaying(true);
-    } else {
+    } else if (!isLoading) {
       setIsPlaying(!isPlaying);
     }
   };
 
   const playTrack = (index) => {
+    // If clicking on the same track that's already loading, do nothing
+    if (currentTrackIndex === index && isLoading) return;
+
     setCurrentTrackIndex(index);
     setIsPlaying(true);
   };
@@ -99,7 +137,7 @@ const AudioPlayer = (audioFiles) => {
   };
 
   const handleProgressClick = (e) => {
-    if (!audioRef.current) return;
+    if (!audioRef.current || isLoading) return;
 
     const progressBar = e.currentTarget;
     const clickPosition =
@@ -112,12 +150,12 @@ const AudioPlayer = (audioFiles) => {
   };
 
   const handleSkipBackward = () => {
-    if (!audioRef.current) return;
+    if (!audioRef.current || isLoading) return;
     audioRef.current.currentTime = Math.max(0, currentTime - 10);
   };
 
   const handleSkipForward = () => {
-    if (!audioRef.current) return;
+    if (!audioRef.current || isLoading) return;
     audioRef.current.currentTime = Math.min(duration, currentTime + 10);
   };
 
@@ -140,18 +178,29 @@ const AudioPlayer = (audioFiles) => {
 
               <div className='d-flex justify-content-between align-items-center mb-2'>
                 <span>{formatTime(currentTime)}</span>
-                <span>{formatTime(duration)}</span>
+                <span>{isLoading ? "Loading..." : formatTime(duration)}</span>
               </div>
 
               <div
                 className='progress mb-3'
-                style={{ height: "8px", cursor: "pointer" }}
+                style={{
+                  height: "8px",
+                  cursor: isLoading ? "not-allowed" : "pointer",
+                }}
                 onClick={handleProgressClick}
               >
                 <div
                   className='progress-bar bg-primary'
                   role='progressbar'
-                  style={{ width: `${(currentTime / duration) * 100}%` }}
+                  style={{
+                    width: isLoading
+                      ? "100%"
+                      : `${(currentTime / duration) * 100}%`,
+                    opacity: isLoading ? 0.5 : 1,
+                    animation: isLoading
+                      ? "progress-bar-stripes 1s linear infinite"
+                      : "none",
+                  }}
                   aria-valuenow={(currentTime / duration) * 100}
                   aria-valuemin='0'
                   aria-valuemax='100'
@@ -163,6 +212,7 @@ const AudioPlayer = (audioFiles) => {
                   variant='outline-secondary'
                   className='me-2'
                   onClick={handleSkipBackward}
+                  disabled={isLoading}
                 >
                   -10s
                 </Button>
@@ -171,15 +221,24 @@ const AudioPlayer = (audioFiles) => {
                   variant='primary'
                   className='mx-2'
                   onClick={togglePlayPause}
-                  disabled={duration === 0}
+                  disabled={isLoading}
                 >
-                  {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                  {isLoading ? (
+                    <Spinner animation='border' role='status'>
+                      <span className='visually-hidden'>Loading...</span>
+                    </Spinner>
+                  ) : isPlaying ? (
+                    <Pause size={18} />
+                  ) : (
+                    <Play size={18} />
+                  )}
                 </Button>
 
                 <Button
                   variant='outline-secondary'
                   className='ms-2'
                   onClick={handleSkipForward}
+                  disabled={isLoading}
                 >
                   +10s
                 </Button>
@@ -197,7 +256,12 @@ const AudioPlayer = (audioFiles) => {
                   currentTrackIndex === index ? "border-primary" : ""
                 }`}
                 onClick={() => playTrack(index)}
-                style={{ cursor: "pointer" }}
+                style={{
+                  cursor:
+                    isLoading && currentTrackIndex === index
+                      ? "wait"
+                      : "pointer",
+                }}
               >
                 <Card.Body className='d-flex flex-column'>
                   <div>{track.label}</div>
@@ -206,15 +270,28 @@ const AudioPlayer = (audioFiles) => {
                   <Col className='mt-auto text-center'>
                     <Button
                       variant={
-                        currentTrackIndex === index && isPlaying
+                        currentTrackIndex === index && isPlaying && !isLoading
                           ? "success"
                           : "primary"
                       }
                       size='sm'
+                      disabled={isLoading && currentTrackIndex === index}
                     >
-                      {currentTrackIndex === index && isPlaying
-                        ? "Now Playing"
-                        : "Play Track"}
+                      {currentTrackIndex === index && isLoading ? (
+                        <span className='d-flex align-items-center justify-content-center'>
+                          <Spinner
+                            as='span'
+                            size='sm'
+                            role='status'
+                            aria-hidden='true'
+                          />
+                          Loading...
+                        </span>
+                      ) : currentTrackIndex === index && isPlaying ? (
+                        "Now Playing"
+                      ) : (
+                        "Play Track"
+                      )}
                     </Button>
                   </Col>
                 </Card.Footer>
