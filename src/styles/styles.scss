@@ -10,23 +10,65 @@ body {
     background: $background;
 }
 
+.navbar {
+    border-bottom: 1px solid $info;
+}
+
 .main-container {
     min-height: 100vh;
 }
 
+
 .homepage {
-    height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+ 
+    .value-card {
+        &-icon {
+            background-color: $primary;
+            color: $light;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+        }
+    }
+
+    .ecosystem {
+        list-style: none;
+        padding-left: 0;
+        
+        li {
+          position: relative;
+          padding-left: 20px;
+          margin-left: 9px;
+          margin-bottom: 10px;
+          
+          &:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: $success; 
+            font-weight: bold;
+          }
+        }
+      }
 }
 
 h1, h2 {
     font-family: "Newsreader", serif;
     font-optical-sizing: auto;
     font-style: normal;
+}
+
+h1 {
+    font-size: 42px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 36px;
+    font-weight: 700;
 }
 
 .songs {
