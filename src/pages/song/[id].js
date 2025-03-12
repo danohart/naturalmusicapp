@@ -2,8 +2,10 @@ import { Row, Col, Button } from "react-bootstrap";
 import Head from "next/head";
 import Link from "next/link";
 import htmlHelper from "@/lib/htmlHelper";
+import extractAudioFiles from "@/lib/extractAudioFiles";
 import ChordSheetJS from "chordsheetjs";
 import { useRouter } from "next/router";
+import AudioPlayer from "@/components/AudioPlayer";
 
 export default function SongPage({ song }) {
   const router = useRouter();
@@ -52,6 +54,10 @@ export default function SongPage({ song }) {
           <h1>{htmlHelper(song.title.rendered)}</h1>
           <hr />
         </Col>
+      </Row>
+
+      <Row>
+        <Col>{AudioPlayer(extractAudioFiles(song.content.rendered))}</Col>
       </Row>
 
       <Row>

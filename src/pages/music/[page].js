@@ -115,7 +115,7 @@ export default function MusicPage({
                 className='me-2'
               >
                 <Share size={16} className='me-1' />
-                Share
+                Share List
               </Button>
               <Button
                 variant='outline-secondary'

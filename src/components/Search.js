@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, InputGroup, Button, Row, Col } from "react-bootstrap";
-import { Search, X } from "lucide-react";
+import { Check, Plus, Search, X } from "lucide-react";
 import Link from "next/link";
 import htmlHelper from "@/lib/htmlHelper";
 
@@ -64,23 +64,23 @@ const SearchComponent = ({ songs, onSongSelect, selectedSongs }) => {
       {isSearching ? (
         <p className='text-muted'>Searching...</p>
       ) : searchResults.length > 0 ? (
-        <div
-          className='search-results border rounded p-2'
+        <Row
+          className='search-results border rounded'
           style={{ maxHeight: "300px", overflowY: "auto" }}
         >
-          <p className='mb-2'>
+          <Col className='mb-2'>
             Found {searchResults.length} song
             {searchResults.length !== 1 ? "s" : ""} matching &quot;{searchTerm}
             &quot;
-          </p>
+          </Col>
           {searchResults.map((song, index) => (
             <Row
               key={song.id}
-              className={`align-items-center p-2 ${
+              className={`align-items-center ${
                 index % 2 === 0 ? "bg-light" : ""
               }`}
             >
-              <Col xs={10} className='d-flex align-items-center'>
+              <Col xs={10} className='d-flex align-items-center py-2'>
                 <Link
                   href={`/song/${song.id}`}
                   className='text-decoration-none'
@@ -94,7 +94,7 @@ const SearchComponent = ({ songs, onSongSelect, selectedSongs }) => {
                     selectedSongs.includes(song.id) ? "primary" : "light"
                   }
                   size='sm'
-                  className='me-2 rounded-circle p-1'
+                  className='me-2 rounded-circle'
                   onClick={() => onSongSelect(song.id)}
                   aria-label={
                     selectedSongs.includes(song.id)
@@ -104,18 +104,18 @@ const SearchComponent = ({ songs, onSongSelect, selectedSongs }) => {
                 >
                   {selectedSongs.includes(song.id) ? (
                     <div className='d-flex align-items-center justify-content-center'>
-                      ✓
+                      <Check size={16} />
                     </div>
                   ) : (
                     <div className='d-flex align-items-center justify-content-center'>
-                      +
+                      <Plus size={16} />
                     </div>
                   )}
                 </Button>
               </Col>
             </Row>
           ))}
-        </div>
+        </Row>
       ) : searchTerm ? (
         <p className='text-muted'>No songs found matching your search.</p>
       ) : null}
