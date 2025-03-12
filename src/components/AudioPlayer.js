@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Row, Col, Card, Button, Spinner } from "react-bootstrap";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause, Redo, Undo } from "lucide-react";
 
 // Create a component that will only be rendered on the client side
 const AudioPlayer = (audioFiles) => {
@@ -170,9 +170,9 @@ const AudioPlayer = (audioFiles) => {
         <h2 className='mb-4 text-center'>Audio Practice Tracks</h2>
 
         {currentTrackIndex !== null && tracks[currentTrackIndex] && (
-          <Card className='mb-4 shadow'>
+          <Card className='mb-2 shadow'>
             <Card.Body>
-              <div className='text-center mb-3'>
+              <div className='text-center'>
                 {tracks[currentTrackIndex].label}
               </div>
 
@@ -207,42 +207,47 @@ const AudioPlayer = (audioFiles) => {
                 ></div>
               </div>
 
-              <div className='d-flex justify-content-center'>
-                <Button
-                  variant='outline-secondary'
-                  className='me-2'
-                  onClick={handleSkipBackward}
-                  disabled={isLoading}
-                >
-                  -10s
-                </Button>
+              <Row>
+                <Col className='d-flex align-items-center justify-content-center'>
+                  <Button
+                    variant='outline-secondary'
+                    className='me-2'
+                    size='sm'
+                    onClick={handleSkipBackward}
+                    disabled={isLoading}
+                  >
+                    <Undo size={16} />
+                  </Button>
 
-                <Button
-                  variant='primary'
-                  className='mx-2'
-                  onClick={togglePlayPause}
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <Spinner animation='border' role='status'>
-                      <span className='visually-hidden'>Loading...</span>
-                    </Spinner>
-                  ) : isPlaying ? (
-                    <Pause size={18} />
-                  ) : (
-                    <Play size={18} />
-                  )}
-                </Button>
+                  <Button
+                    variant='primary'
+                    size='lg'
+                    className='mx-2'
+                    onClick={togglePlayPause}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <Spinner animation='border' role='status'>
+                        <span className='visually-hidden'>Loading...</span>
+                      </Spinner>
+                    ) : isPlaying ? (
+                      <Pause size={18} />
+                    ) : (
+                      <Play size={18} />
+                    )}
+                  </Button>
 
-                <Button
-                  variant='outline-secondary'
-                  className='ms-2'
-                  onClick={handleSkipForward}
-                  disabled={isLoading}
-                >
-                  +10s
-                </Button>
-              </div>
+                  <Button
+                    variant='outline-secondary'
+                    className='ms-2'
+                    size='sm'
+                    onClick={handleSkipForward}
+                    disabled={isLoading}
+                  >
+                    <Redo size={16} />
+                  </Button>
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
         )}
