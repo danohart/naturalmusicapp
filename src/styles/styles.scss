@@ -157,6 +157,14 @@ a[href$=".pdf"] {
           }
       }
   }
+
+.song {
+    &.just-lyrics {
+        .chord {
+            display: none;
+        }
+    }
+}
   
   .postbox {
     border-radius: 15px

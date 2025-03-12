@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { Play, Pause } from "lucide-react";
 
@@ -127,101 +127,103 @@ const AudioPlayer = (audioFiles) => {
   }
 
   return (
-    <div className='mt-4'>
-      <h2 className='mb-4 text-center'>Audio Practice Tracks</h2>
+    <Row className='mt-4'>
+      <Col>
+        <h2 className='mb-4 text-center'>Audio Practice Tracks</h2>
 
-      {currentTrackIndex !== null && tracks[currentTrackIndex] && (
-        <Card className='mb-4 shadow'>
-          <Card.Body>
-            <div className='text-center mb-3'>
-              {tracks[currentTrackIndex].label}
-            </div>
+        {currentTrackIndex !== null && tracks[currentTrackIndex] && (
+          <Card className='mb-4 shadow'>
+            <Card.Body>
+              <div className='text-center mb-3'>
+                {tracks[currentTrackIndex].label}
+              </div>
 
-            <div className='d-flex justify-content-between align-items-center mb-2'>
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
+              <div className='d-flex justify-content-between align-items-center mb-2'>
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
 
-            <div
-              className='progress mb-3'
-              style={{ height: "8px", cursor: "pointer" }}
-              onClick={handleProgressClick}
-            >
               <div
-                className='progress-bar bg-primary'
-                role='progressbar'
-                style={{ width: `${(currentTime / duration) * 100}%` }}
-                aria-valuenow={(currentTime / duration) * 100}
-                aria-valuemin='0'
-                aria-valuemax='100'
-              ></div>
-            </div>
-
-            <div className='d-flex justify-content-center'>
-              <Button
-                variant='outline-secondary'
-                className='me-2'
-                onClick={handleSkipBackward}
+                className='progress mb-3'
+                style={{ height: "8px", cursor: "pointer" }}
+                onClick={handleProgressClick}
               >
-                -10s
-              </Button>
+                <div
+                  className='progress-bar bg-primary'
+                  role='progressbar'
+                  style={{ width: `${(currentTime / duration) * 100}%` }}
+                  aria-valuenow={(currentTime / duration) * 100}
+                  aria-valuemin='0'
+                  aria-valuemax='100'
+                ></div>
+              </div>
 
-              <Button
-                variant='primary'
-                className='mx-2'
-                onClick={togglePlayPause}
-                disabled={duration === 0}
+              <div className='d-flex justify-content-center'>
+                <Button
+                  variant='outline-secondary'
+                  className='me-2'
+                  onClick={handleSkipBackward}
+                >
+                  -10s
+                </Button>
+
+                <Button
+                  variant='primary'
+                  className='mx-2'
+                  onClick={togglePlayPause}
+                  disabled={duration === 0}
+                >
+                  {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                </Button>
+
+                <Button
+                  variant='outline-secondary'
+                  className='ms-2'
+                  onClick={handleSkipForward}
+                >
+                  +10s
+                </Button>
+              </div>
+            </Card.Body>
+          </Card>
+        )}
+
+        {/* Track List */}
+        <Row>
+          {tracks.map((track, index) => (
+            <Col key={index} xs={6} md={4} className='track mb-4'>
+              <Card
+                className={`h-100 ${
+                  currentTrackIndex === index ? "border-primary" : ""
+                }`}
+                onClick={() => playTrack(index)}
+                style={{ cursor: "pointer" }}
               >
-                {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-              </Button>
-
-              <Button
-                variant='outline-secondary'
-                className='ms-2'
-                onClick={handleSkipForward}
-              >
-                +10s
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
-      )}
-
-      {/* Track List */}
-      <Row>
-        {tracks.map((track, index) => (
-          <Col key={index} xs={6} md={4} className='track mb-4'>
-            <Card
-              className={`h-100 ${
-                currentTrackIndex === index ? "border-primary" : ""
-              }`}
-              onClick={() => playTrack(index)}
-              style={{ cursor: "pointer" }}
-            >
-              <Card.Body className='d-flex flex-column'>
-                <div>{track.label}</div>
-              </Card.Body>
-              <Card.Footer>
-                <Col className='mt-auto text-center'>
-                  <Button
-                    variant={
-                      currentTrackIndex === index && isPlaying
-                        ? "success"
-                        : "primary"
-                    }
-                    size='sm'
-                  >
-                    {currentTrackIndex === index && isPlaying
-                      ? "Now Playing"
-                      : "Play Track"}
-                  </Button>
-                </Col>
-              </Card.Footer>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
+                <Card.Body className='d-flex flex-column'>
+                  <div>{track.label}</div>
+                </Card.Body>
+                <Card.Footer>
+                  <Col className='mt-auto text-center'>
+                    <Button
+                      variant={
+                        currentTrackIndex === index && isPlaying
+                          ? "success"
+                          : "primary"
+                      }
+                      size='sm'
+                    >
+                      {currentTrackIndex === index && isPlaying
+                        ? "Now Playing"
+                        : "Play Track"}
+                    </Button>
+                  </Col>
+                </Card.Footer>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Col>
+    </Row>
   );
 };
 

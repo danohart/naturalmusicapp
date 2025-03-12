@@ -46,7 +46,7 @@ export default function MusicPage({
         return [...prev, songId];
       }
     });
-    // Hide share options when selection changes
+
     setShowShareOptions(false);
     setCopied(false);
   };
@@ -82,10 +82,6 @@ export default function MusicPage({
     setSelectedSongs([]);
     setShowShareOptions(false);
     setCopied(false);
-  };
-
-  const toggleSearchView = () => {
-    setShowSearch(!showSearch);
   };
 
   return (

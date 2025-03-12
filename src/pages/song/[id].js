@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import Head from "next/head";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import { useRouter } from "next/router";
 import AudioPlayer from "@/components/AudioPlayer";
 
 export default function SongPage({ song }) {
+  const [justLyrics, setJustLyrics] = useState(false);
   const router = useRouter();
   if (!song) {
     return (
@@ -41,9 +43,9 @@ export default function SongPage({ song }) {
         <title>{htmlHelper(song.title.rendered)} - Natural Music App</title>
       </Head>
       <Row>
-        <Col className='mt-4'>
+        <Col>
           <Button
-            variant='outline-secondary'
+            variant='info'
             size='sm'
             className='mb-3'
             onClick={() => router.back()}
@@ -61,9 +63,33 @@ export default function SongPage({ song }) {
       </Row>
 
       <Row>
+        <Col xs={7} lg={3}>
+          <h2>Lyrics & Chords</h2>
+        </Col>
+        <Col xs={5} lg={9}>
+          <Button
+            pill
+            variant={!justLyrics ? "primary" : "outline-primary"}
+            size='sm'
+            className='me-1'
+            onClick={() => setJustLyrics(!justLyrics)}
+          >
+            Chords
+          </Button>
+          <Button
+            pill
+            variant={justLyrics ? "primary" : "outline-primary"}
+            size='sm'
+            onClick={() => setJustLyrics(!justLyrics)}
+          >
+            Lyrics
+          </Button>
+        </Col>
         <Col
+          xs={12}
+          className={justLyrics ? "song just-lyrics" : "song"}
           dangerouslySetInnerHTML={{
-            __html: song.content.rendered,
+            __html: parseSong(song.metadata._crd_practice_song),
           }}
         />
       </Row>
