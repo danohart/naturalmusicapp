@@ -54,9 +54,8 @@ export default function Home() {
         </Card>
         <Row>
           {values.map((value) => (
-            <Col xs={12} lg={4}>
+            <Col xs={12} lg={4} key={value.title}>
               <Card
-                key={value.title}
                 border='light'
                 className='text-dark bg-info p-4 mt-4 value-card'
               >
