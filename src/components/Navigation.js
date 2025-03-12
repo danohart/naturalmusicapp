@@ -2,7 +2,7 @@ import { Container, Offcanvas, Nav, Navbar, Button } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Navigation() {
-  const siteTitle = "Natural Music App";
+  const siteTitle = "Natural Music";
   const { isAuthenticated, user, logout } = useAuth();
 
   const handleLogout = (e) => {
@@ -13,7 +13,9 @@ export default function Navigation() {
   return (
     <Navbar bg='light' expand='lg' className='mb-4'>
       <Container fluid>
-        <Navbar.Brand href='/'>{siteTitle}</Navbar.Brand>
+        <Navbar.Brand href='/'>
+          <img src='/naturallogo.svg' width='50px' height='auto' /> {siteTitle}
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls='offcanvasNavbar' />
         <Navbar.Offcanvas
           id='offcanvasNavbar'
