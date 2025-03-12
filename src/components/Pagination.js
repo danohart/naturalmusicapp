@@ -43,7 +43,7 @@ export default function PaginationComponent({
   if (totalPages <= 1) return null;
 
   return (
-    <Pagination className='mt-4 justify-content-between'>
+    <Pagination className='mt-4 justify-content-center'>
       <Link href={`${baseUrl}/1`} passHref legacyBehavior>
         <Pagination.First disabled={currentPage === 1} />
       </Link>

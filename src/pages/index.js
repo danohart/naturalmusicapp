@@ -16,7 +16,7 @@ export default function Home() {
         <title>Natural Music App</title>
       </Head>
 
-      <Col className='vh-100 flex-column justify-content-center align-items-center d-flex text-center'>
+      <Col className='homepage'>
         <h5 className='text-muted fw-light mb-2'>Welcome to</h5>
         <h1 className='display-2 fw-bold mb-2'>Natural Music App</h1>
 
