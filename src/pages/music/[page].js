@@ -182,16 +182,17 @@ export default function MusicPage({
 
       {songs.map((song, index) => (
         <Row key={song.id} className='songs p-2'>
-          <Col xs={3} className='songs-image'>
+          <Col xs={3} lg={1} className='songs-image'>
             <img src={`https://picsum.photos/100?random=${index}`} />
           </Col>
-          <Col xs={7}>
+          <Col xs={7} lg={10}>
             <Link href={`/song/${song.id}`} className='text-decoration-none'>
               {htmlHelper(song.title.rendered)}
             </Link>
           </Col>
           <Col
             xs={2}
+            lg={1}
             className='d-flex align-items-center justify-content-center'
           >
             <Button
