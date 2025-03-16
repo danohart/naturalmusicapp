@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  Row,
-  Col,
-  Button,
-  Card,
-  ListGroup,
-  ListGroupItem,
-} from "react-bootstrap";
+import { Row, Col, Button, Card } from "react-bootstrap";
 import { BadgeDollarSign, Clock, GraduationCap } from "lucide-react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import SubscriptionAd from "@/components/SubscriptionAd";
 
 export default function Home() {
   const router = useRouter();
@@ -90,6 +84,8 @@ export default function Home() {
           <li>Downloadable chord charts that visualize exactly what to play</li>
           <li>Personal progress dashboard to celebrate your growth</li>
         </ul>
+
+        <SubscriptionAd hasLogin />
 
         <Button
           size='lg'

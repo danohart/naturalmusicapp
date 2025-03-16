@@ -18,9 +18,19 @@ body {
     min-height: 100vh;
 }
 
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    /* Add any transition effects if desired */
+    transition: all 0.3s ease;
+  }
+  
+
 
 .homepage {
- 
+
     .value-card {
         &-icon {
             background-color: $primary;

@@ -1,14 +1,14 @@
-<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1224 841" width="1224" height="841">
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 438" width="600" height="438">
 	<title>Natural Logo</title>
 	<style>
-		.s0 { fill: none;stroke: #231f20;stroke-miterlimit:10;stroke-width: 8 } 
+		.s0 { fill: none;stroke: #000000;paint-order:stroke fill markers;stroke-linejoin: round;stroke-width: 14 } 
 		.s1 { fill: #231f20 } 
 	</style>
 	<g id="Layer 1">
-		<path id="&lt;Path&gt;" class="s0" d="m616.2 823.5l-556.6-401.3 559.6-403.5 556.5 401.3z"/>
-		<path id="&lt;Path&gt;" class="s1" d="m682.6 345.4l-120.7 57.3v-68.4l120.7-57.3z"/>
-		<path id="&lt;Path&gt;" class="s1" d="m572.7 555h-17.5v-415.4h17.5z"/>
-		<path id="&lt;Path&gt;" class="s1" d="m676.6 503.4l-120.7 57.3v-68.4l120.7-57.3z"/>
-		<path id="&lt;Path&gt;" class="s1" d="m685.4 699h-17.6v-415.4h17.6z"/>
+		<path id="&lt;Path&gt;" class="s0" d="m299.3 427.4l-288.1-207.8 289.7-208.9 288.1 207.8z"/>
+		<path id="&lt;Path&gt;" class="s1" d="m333.7 179.8l-62.5 29.7v-35.4l62.5-29.6z"/>
+		<path id="&lt;Path&gt;" fill-rule="evenodd" class="s1" d="m276.8 73.3v215.1h-9.1v-215.1z"/>
+		<path id="&lt;Path&gt;" class="s1" d="m330.6 261.6l-62.5 29.7v-35.4l62.5-29.6z"/>
+		<path id="&lt;Path&gt;" fill-rule="evenodd" class="s1" d="m335.1 147.9v215h-9v-215z"/>
 	</g>
 </svg>

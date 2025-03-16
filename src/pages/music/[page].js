@@ -18,8 +18,27 @@ export default function MusicPage({
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
   const [copied, setCopied] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const navbar = document.getElementById("sticky-song-list");
+    const navbarPosition = navbar ? navbar.offsetTop : 0;
+
+    const handleScroll = () => {
+      if (window.scrollY >= navbarPosition) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // Load selected songs from localStorage when component mounts
   useEffect(() => {
@@ -96,7 +115,12 @@ export default function MusicPage({
           </div>
         </Col>
       </Row>
-      <Row className='align-items-center song-selection-bar'>
+      <Row
+        className={`align-items-center song-selection-bar ${
+          isSticky ? "sticky" : ""
+        }`}
+        id='sticky-song-list'
+      >
         {selectedSongs.length > 0 ? (
           <>
             <Col xs={6}>

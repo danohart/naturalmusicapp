@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/router";
 import { Row, Col, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
+import SubscriptionAd from "@/components/SubscriptionAd";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -11,7 +12,6 @@ export default function Login() {
   const { login, loading } = useAuth();
   const router = useRouter();
 
-  // Get the redirect URL from query parameters or default to homepage
   const { redirect } = router.query;
 
   const handleSubmit = async (e) => {
@@ -96,6 +96,7 @@ export default function Login() {
           </Card.Body>
         </Card>
       </Col>
+      <SubscriptionAd />
     </Row>
   );
 }
