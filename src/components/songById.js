@@ -1,9 +1,9 @@
-// components/SongListByUrl.js
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Card, ListGroup, Spinner, Button } from "react-bootstrap";
+import { Card, ListGroup, Spinner } from "react-bootstrap";
 import htmlHelper from "@/lib/htmlHelper";
+import { ArrowRight } from "lucide-react";
 
 export default function SongListByUrl() {
   const router = useRouter();
@@ -73,7 +73,9 @@ export default function SongListByUrl() {
               <h5>{htmlHelper(song.title.rendered)}</h5>
             </div>
             <Link href={`/song/${song.id}`} passHref legacyBehavior>
-              <a className='btn btn-outline-primary btn-sm'>View Song</a>
+              <a className='btn btn-outline-primary btn-sm'>
+                View Song <ArrowRight />
+              </a>
             </Link>
           </ListGroup.Item>
         ))}

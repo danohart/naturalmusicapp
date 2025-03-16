@@ -16,14 +16,15 @@ body {
 
 .main-container {
     min-height: 100vh;
+    position: relative;
 }
 
 .sticky {
     position: fixed;
     top: 0;
+    left: 12px;
     width: 100%;
     z-index: 1000;
-    /* Add any transition effects if desired */
     transition: all 0.3s ease;
   }
   

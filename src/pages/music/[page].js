@@ -152,47 +152,46 @@ export default function MusicPage({
             <hr />
           </Col>
         )}
-      </Row>
+        {showShareOptions && (
+          <Row className='my-3'>
+            <Col>
+              <div className='p-3 border rounded bg-light'>
+                <InputGroup className='mb-2'>
+                  <Form.Control
+                    value={shareUrl}
+                    readOnly
+                    onClick={(e) => e.target.select()}
+                  />
+                  <Button variant='outline-secondary' onClick={copyToClipboard}>
+                    {copied ? (
+                      <CheckCircle size={18} />
+                    ) : (
+                      <ClipboardIcon size={18} />
+                    )}
+                  </Button>
+                </InputGroup>
 
-      {showShareOptions && (
-        <Row className='mb-3'>
-          <Col>
-            <div className='p-3 border rounded bg-light'>
-              <InputGroup className='mb-2'>
-                <Form.Control
-                  value={shareUrl}
-                  readOnly
-                  onClick={(e) => e.target.select()}
-                />
-                <Button variant='outline-secondary' onClick={copyToClipboard}>
-                  {copied ? (
-                    <CheckCircle size={18} />
-                  ) : (
-                    <ClipboardIcon size={18} />
-                  )}
-                </Button>
-              </InputGroup>
+                <div className='d-flex'>
+                  <Button
+                    variant='info'
+                    size='sm'
+                    className='me-2'
+                    onClick={goToSharedList}
+                  >
+                    Go to Shared List
+                  </Button>
+                </div>
 
-              <div className='d-flex'>
-                <Button
-                  variant='info'
-                  size='sm'
-                  className='me-2'
-                  onClick={goToSharedList}
-                >
-                  Go to Shared List
-                </Button>
+                {copied && (
+                  <Alert variant='success' className='mt-2 py-2 mb-0'>
+                    Link copied to clipboard!
+                  </Alert>
+                )}
               </div>
-
-              {copied && (
-                <Alert variant='success' className='mt-2 py-2 mb-0'>
-                  Link copied to clipboard!
-                </Alert>
-              )}
-            </div>
-          </Col>
-        </Row>
-      )}
+            </Col>
+          </Row>
+        )}
+      </Row>
       <Row>
         <Col>
           <SearchComponent
