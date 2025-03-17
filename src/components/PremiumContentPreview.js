@@ -26,7 +26,9 @@ const PremiumContentPreview = ({
       <Card.Body>
         <Row>
           <Col md={showPreview ? 12 : 8}>
-            <h5>Master "{songTitle}" with step-by-step video instruction</h5>
+            <h5>
+              Master &quot;{songTitle}&quot; with step-by-step video instruction
+            </h5>
             <p>
               Get access to {lessonCount}+ interactive video lessons teaching
               you exactly how to play this song and many others.
