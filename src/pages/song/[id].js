@@ -7,6 +7,8 @@ import extractAudioFiles from "@/lib/extractAudioFiles";
 import ChordSheetJS from "chordsheetjs";
 import { useRouter } from "next/router";
 import AudioPlayer from "@/components/AudioPlayer";
+import PremiumContentPreview from "@/components/PremiumContentPreview";
+import FloatingSubscriptionCTA from "@/components/FloatingSubscriptionCTA";
 
 export default function SongPage({ song }) {
   const [justLyrics, setJustLyrics] = useState(false);
@@ -37,10 +39,12 @@ export default function SongPage({ song }) {
     return songDisplay;
   }
 
+  const songTitle = htmlHelper(song.title.rendered);
+
   return (
     <>
       <Head>
-        <title>{htmlHelper(song.title.rendered)} - Natural Music App</title>
+        <title>{songTitle} - Natural Music App</title>
       </Head>
       <Row>
         <Col>
@@ -53,7 +57,7 @@ export default function SongPage({ song }) {
             ← Back to song list
           </Button>
 
-          <h1>{htmlHelper(song.title.rendered)}</h1>
+          <h1>{songTitle}</h1>
           <hr />
         </Col>
       </Row>
@@ -93,6 +97,13 @@ export default function SongPage({ song }) {
               __html: parseSong(song.metadata._crd_practice_song),
             }}
           />
+          {/* <PremiumContentPreview
+            songTitle={songTitle}
+            courseId={relatedCourseId}
+            previewUrl='https://www.youtube.com/embed/sample-preview'
+            lessonCount={20}
+          /> */}
+          <FloatingSubscriptionCTA />
         </Row>
       )}
     </>

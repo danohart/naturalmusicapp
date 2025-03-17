@@ -14,7 +14,6 @@ export default async function handler(req, res) {
   try {
     const lesson = await getSinglePost(`lessons?slug=${slug}&_embed`);
 
-    // If no course is found with that slug
     if (!lesson || lesson.length === 0) {
       return res.status(404).json({ message: "Lesson not found" });
     }

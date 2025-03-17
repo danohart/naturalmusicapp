@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Card, ListGroup, Spinner } from "react-bootstrap";
+import { Col, Card, ListGroup, Spinner } from "react-bootstrap";
 import htmlHelper from "@/lib/htmlHelper";
 import { ArrowRight } from "lucide-react";
 
@@ -69,14 +69,16 @@ export default function SongListByUrl() {
             key={song.id}
             className='d-flex justify-content-between align-items-center'
           >
-            <div>
+            <Col xs='8'>
               <h5>{htmlHelper(song.title.rendered)}</h5>
-            </div>
-            <Link href={`/song/${song.id}`} passHref legacyBehavior>
-              <a className='btn btn-outline-primary btn-sm'>
-                View Song <ArrowRight />
-              </a>
-            </Link>
+            </Col>
+            <Col xs={4} className='d-flex justify-content-end'>
+              <Link href={`/song/${song.id}`} passHref legacyBehavior>
+                <a className='btn btn-outline-primary btn-sm'>
+                  View Song <ArrowRight />
+                </a>
+              </Link>
+            </Col>
           </ListGroup.Item>
         ))}
       </ListGroup>

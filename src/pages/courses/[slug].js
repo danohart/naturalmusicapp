@@ -180,7 +180,7 @@ export default function CourseDetailPage() {
                             ? "danger"
                             : "secondary"
                         }
-                        className='ms-2'
+                        className='ms-2 text-dark'
                       >
                         {lesson.complexity.charAt(0).toUpperCase() +
                           lesson.complexity.slice(1)}
