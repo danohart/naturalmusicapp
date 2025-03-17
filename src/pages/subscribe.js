@@ -194,43 +194,6 @@ export default function Subscribe() {
       </Row>
 
       <Row className='mb-5'>
-        <Col xs={12} className='text-center mb-4'>
-          <h2>Success Stories from Our Members</h2>
-        </Col>
-        {testimonials.map((testimonial, index) => (
-          <Col md={4} key={index} className='mb-4'>
-            <Card className='h-100 border-0 shadow-sm'>
-              <Card.Body className='p-4'>
-                <div className='mb-3 text-primary'>
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className='me-1'>
-                      ★
-                    </span>
-                  ))}
-                </div>
-                <p className='testimonial-quote mb-4'>"{testimonial.quote}"</p>
-                <div className='d-flex align-items-center mt-auto'>
-                  <div
-                    className='testimonial-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3'
-                    style={{ width: "50px", height: "50px" }}
-                  >
-                    {testimonial.name.charAt(0)}
-                  </div>
-                  <div>
-                    <h4 className='h6 mb-0'>{testimonial.name}</h4>
-                    <p className='text-muted small mb-0'>
-                      {testimonial.instrument} • Member for {testimonial.months}{" "}
-                      months
-                    </p>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-
-      <Row className='mb-5'>
         <Col md={10} className='mx-auto'>
           <Card className='bg-primary text-white border-0 shadow'>
             <Card.Body className='p-5 text-center'>
