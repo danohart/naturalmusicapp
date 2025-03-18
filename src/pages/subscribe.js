@@ -35,7 +35,7 @@ export default function Subscribe() {
     {
       name: "Kiyenze J.",
       quote:
-        "I am happy to find your online courses, they are impressive and easy structured God bless you.",
+        "I am happy to find your online courses, they are impressive and easy structured. God bless you.",
       instrument: "Piano",
       months: 7,
     },
@@ -48,8 +48,7 @@ export default function Subscribe() {
     },
     {
       name: "Michael T.",
-      quote:
-        "I wanted to thank you for putting this course together. It's amazing. I hope that you continue to teach others to play. I'm having so much fun learning this way after giving up on traditional lessons 30 years ago.",
+      quote: `I wanted to thank you for putting this course together. I hope that you continue to teach others to play. I am having so much fun learning this way after giving up on traditional lessons 30 years ago.`,
       instrument: "Piano",
       months: 12,
     },
@@ -191,7 +190,9 @@ export default function Subscribe() {
                     </span>
                   ))}
                 </div>
-                <p className='testimonial-quote mb-4'>"{testimonial.quote}"</p>
+                <p className='testimonial-quote mb-4'>
+                  &quot;{testimonial.quote}&quot;
+                </p>
                 <div className='d-flex align-items-center mt-auto'>
                   <div
                     className='testimonial-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3'
