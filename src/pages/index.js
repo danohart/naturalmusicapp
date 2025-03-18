@@ -3,6 +3,7 @@ import { Row, Col, Button, Card } from "react-bootstrap";
 import { BadgeDollarSign, Clock, GraduationCap } from "lucide-react";
 import Head from "next/head";
 import SubscriptionAd from "@/components/SubscriptionAd";
+import MailchimpSubscribe from "@/components/MailchimpSubscribe";
 
 export default function Home() {
   const values = [
@@ -93,6 +94,13 @@ export default function Home() {
           <li>Downloadable chord charts that visualize exactly what to play</li>
           <li>Personal progress dashboard to celebrate your growth</li>
         </ul>
+
+        <MailchimpSubscribe
+          className='border-top py-5'
+          buttonVariant='secondary'
+          buttonText='Subscribe Free'
+          placeholder='Your email address'
+        />
 
         <SubscriptionAd hasLogin />
       </Col>
