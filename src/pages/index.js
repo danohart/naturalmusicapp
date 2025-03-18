@@ -1,17 +1,10 @@
 import React from "react";
 import { Row, Col, Button, Card } from "react-bootstrap";
 import { BadgeDollarSign, Clock, GraduationCap } from "lucide-react";
-import { useRouter } from "next/router";
 import Head from "next/head";
 import SubscriptionAd from "@/components/SubscriptionAd";
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleRedirect = () => {
-    router.push("/music/1");
-  };
-
   const values = [
     {
       title: "Studio Quality, Fraction of the Cost",
@@ -42,8 +35,24 @@ export default function Home() {
             <h2>Master Your Instrument, Your Way</h2>
           </Card.Title>
           <Card.Text>
-            Intuitive video lessons with PDF chord charts—no sheet music
-            required
+            <Row>
+              <Col xs={12}>
+                Intuitive video lessons with PDF chord charts—no sheet music
+                required
+              </Col>
+
+              <Col
+                className='d-flex text-center mt-4 d-flex justify-content-center gap-2'
+                xs={12}
+              >
+                <Button href='/subscribe' variant='light' size='lg'>
+                  Get Started
+                </Button>
+                <Button href='/courses' variant='outline-light' size='lg'>
+                  View Courses
+                </Button>
+              </Col>
+            </Row>
           </Card.Text>
         </Card>
         <Row>
@@ -86,15 +95,6 @@ export default function Home() {
         </ul>
 
         <SubscriptionAd hasLogin />
-
-        <Button
-          size='lg'
-          variant='primary'
-          onClick={handleRedirect}
-          className='px-5 py-3 shadow-sm mt-5'
-        >
-          View All Songs
-        </Button>
       </Col>
     </Row>
   );

@@ -13,14 +13,8 @@ export default function Subscribe() {
         "Learn from professional musicians with crystal-clear instructional videos",
     },
     {
-      icon: <Headphones size={24} />,
-      title: "Audio Practice Tracks",
-      description:
-        "Practice with backing tracks at various tempos to build your skills",
-    },
-    {
       icon: <BookOpen size={24} />,
-      title: "Chord & Lyric Charts",
+      title: "Lyrics & Chord Charts",
       description:
         "Visual chord charts make learning easy - no sheet music required",
     },
@@ -39,24 +33,24 @@ export default function Subscribe() {
 
   const testimonials = [
     {
-      name: "Sarah M.",
+      name: "Kiyenze J.",
       quote:
-        "I tried for years to learn guitar with YouTube videos, but Natural Music finally helped me make real progress!",
-      instrument: "Guitar",
+        "I am happy to find your online courses, they are impressive and easy structured God bless you.",
+      instrument: "Piano",
       months: 7,
     },
     {
-      name: "David L.",
+      name: "Aline B.",
       quote:
-        "The step-by-step approach and visual chord charts made it so much easier to understand than traditional lessons.",
+        "You were a great help in getting me started playing the piano once again. I now play for my church every Sunday.",
       instrument: "Piano",
       months: 4,
     },
     {
       name: "Michael T.",
       quote:
-        "I can finally play the songs I have always wanted to. Worth every penny of the subscription.",
-      instrument: "Ukulele",
+        "I wanted to thank you for putting this course together. It's amazing. I hope that you continue to teach others to play. I'm having so much fun learning this way after giving up on traditional lessons 30 years ago.",
+      instrument: "Piano",
       months: 12,
     },
   ];
@@ -132,17 +126,6 @@ export default function Subscribe() {
                         </div>
                       </div>
                     </ListGroup.Item>
-                    <ListGroup.Item className='border-0 ps-0'>
-                      <div className='d-flex align-items-center'>
-                        <div className='text-success me-3'>
-                          <Check size={24} />
-                        </div>
-                        <div>
-                          <strong>Cancel Anytime</strong> - no long-term
-                          commitments
-                        </div>
-                      </div>
-                    </ListGroup.Item>
                   </ListGroup>
                 </Col>
                 <Col
@@ -187,6 +170,43 @@ export default function Subscribe() {
                 </div>
                 <h3 className='h5 mb-3'>{feature.title}</h3>
                 <p className='text-muted'>{feature.description}</p>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      <Row className='mb-5'>
+        <Col xs={12} className='text-center mb-4'>
+          <h2>Success Stories from Our Members</h2>
+        </Col>
+        {testimonials.map((testimonial, index) => (
+          <Col md={4} key={index} className='mb-4'>
+            <Card className='h-100 border-0 shadow-sm'>
+              <Card.Body className='p-4'>
+                <div className='mb-3 text-primary'>
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className='me-1'>
+                      ★
+                    </span>
+                  ))}
+                </div>
+                <p className='testimonial-quote mb-4'>"{testimonial.quote}"</p>
+                <div className='d-flex align-items-center mt-auto'>
+                  <div
+                    className='testimonial-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3'
+                    style={{ width: "50px", height: "50px" }}
+                  >
+                    {testimonial.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className='h6 mb-0'>{testimonial.name}</h4>
+                    {/* <p className='text-muted small mb-0'>
+                      {testimonial.instrument} • Member for{" "}
+                      {testimonial.months + " months"}
+                    </p> */}
+                  </div>
+                </div>
               </Card.Body>
             </Card>
           </Col>
